@@ -11,7 +11,7 @@ export default function handler(req, res) {
   const state = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
   
   // セッションに状態を保存（簡易実装）
-  res.setHeader('Set-Cookie', `auth_state=${state}; Path=/; HttpOnly; SameSite=Strict; Max-Age=600`);
+  res.setHeader('Set-Cookie', `auth_state=${state}; Path=/; HttpOnly; SameSite=Lax; Max-Age=600`);
   
   const authUrl = `https://discord.com/api/oauth2/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=code&scope=${encodeURIComponent(scope)}&state=${state}`;
   

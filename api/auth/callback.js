@@ -14,11 +14,16 @@ export default async function handler(req, res) {
   // 状態トークンの検証
   const cookies = req.headers.cookie?.split(';').reduce((acc, cookie) => {
     const [key, value] = cookie.trim().split('=');
-    acc[key] = value;
+    acc[key] = decodeURIComponent(value || '');
     return acc;
   }, {}) || {};
   
-  if (!state || cookies.auth_state !== state) {
+  console.log('Debug - State from query:', state);
+  console.log('Debug - State from cookie:', cookies.auth_state);
+  console.log('Debug - All cookies:', req.headers.cookie);
+  
+  if (!state || !cookies.auth_state || cookies.auth_state !== state) {
+    console.error('State validation failed:', { queryState: state, cookieState: cookies.auth_state });
     return res.status(400).json({ error: 'Invalid state parameter' });
   }
 

@@ -37,17 +37,10 @@
     }
     
     // ページロード時に認証チェック
+    // bodyは最初から非表示になっているので、認証チェックのみ実行
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', function() {
-            // DOMロード後にbodyを非表示にする
-            document.body.style.display = 'none';
-            checkAuth();
-        });
+        document.addEventListener('DOMContentLoaded', checkAuth);
     } else {
-        // 既にロード済みの場合
-        if (document.body) {
-            document.body.style.display = 'none';
-        }
         checkAuth();
     }
     
