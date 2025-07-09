@@ -38,12 +38,16 @@
     
     // ページロード時に認証チェック
     if (document.readyState === 'loading') {
-        // 初期状態でbodyを非表示にする
-        document.body.style.display = 'none';
-        document.addEventListener('DOMContentLoaded', checkAuth);
+        document.addEventListener('DOMContentLoaded', function() {
+            // DOMロード後にbodyを非表示にする
+            document.body.style.display = 'none';
+            checkAuth();
+        });
     } else {
         // 既にロード済みの場合
-        document.body.style.display = 'none';
+        if (document.body) {
+            document.body.style.display = 'none';
+        }
         checkAuth();
     }
     
