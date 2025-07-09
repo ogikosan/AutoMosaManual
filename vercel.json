@@ -1,13 +1,7 @@
 {
   "functions": {
-    "api/auth/discord.js": {
-      "runtime": "nodejs18.x"
-    },
-    "api/auth/callback.js": {
-      "runtime": "nodejs18.x"
-    },
-    "api/auth/verify.js": {
-      "runtime": "nodejs18.x"
+    "api/auth/*.js": {
+      "runtime": "nodejs20.x"
     }
   },
   "rewrites": [
