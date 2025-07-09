@@ -70,11 +70,99 @@
         }
         
         .image-container img {
-            max-width: 600px;
+            max-width: 500px;
             width: 100%;
             height: auto;
             border-radius: 0.5rem;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .image-container img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 15px -3px rgba(0, 0, 0, 0.15);
+        }
+        
+        /* 画像カテゴリ別サイズ調整 */
+        .small-image img {
+            max-width: 350px;
+        }
+        
+        .medium-image img {
+            max-width: 450px;
+        }
+        
+        .large-image img {
+            max-width: 550px;
+        }
+        
+        /* レスポンシブ調整 */
+        @media (max-width: 1200px) {
+            .content-wrapper {
+                max-width: 1000px;
+                padding: 0 2rem;
+            }
+        }
+        
+        @media (max-width: 1024px) {
+            .image-container img {
+                max-width: 400px;
+            }
+            .content-wrapper {
+                max-width: 900px;
+                padding: 0 1.5rem;
+            }
+            .feature-list {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .content-wrapper {
+                padding: 0 1rem;
+            }
+            .image-container img {
+                max-width: 100%;
+            }
+            .small-image img,
+            .medium-image img,
+            .large-image img {
+                max-width: 100%;
+            }
+            .section-title {
+                font-size: 1.8rem;
+            }
+            .subsection-title {
+                font-size: 1.4rem;
+            }
+            .feature-list {
+                grid-template-columns: 1fr;
+            }
+            .grid.grid-cols-1.md\\:grid-cols-2 {
+                grid-template-columns: 1fr !important;
+            }
+        }
+        
+        @media (max-width: 640px) {
+            .content-wrapper {
+                padding: 0 0.5rem;
+            }
+            header h1 {
+                font-size: 1.8rem;
+            }
+            .section-title {
+                font-size: 1.5rem;
+            }
+            .subsection-title {
+                font-size: 1.2rem;
+            }
+            .step-card {
+                padding: 1rem;
+            }
+            .important-note {
+                padding: 0.75rem 1rem;
+            }
         }
         
         .toc-link {
@@ -184,11 +272,11 @@
     <header class="bg-gradient-to-r from-blue-600 to-purple-600 text-white py-8 shadow-lg">
         <div class="content-wrapper">
             <div class="text-center">
-                <h1 class="text-4xl font-bold mb-2">
-                    <i class="fas fa-robot mr-3"></i>AutoMosaRakku 完全マニュアル
+                <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold mb-2">
+                    <i class="fas fa-robot mr-2 sm:mr-3"></i>AutoMosaRakku 完全マニュアル
                 </h1>
-                <p class="text-xl text-blue-100">自動モザイクツール - 使用ガイド</p>
-                <div class="mt-4 flex justify-center items-center space-x-4 text-sm">
+                <p class="text-lg sm:text-xl text-blue-100">自動モザイクツール - 使用ガイド</p>
+                <div class="mt-4 flex justify-center items-center space-x-2 sm:space-x-4 text-xs sm:text-sm flex-wrap">
                     <span class="bg-white bg-opacity-20 px-3 py-1 rounded-full">
                         <i class="fas fa-magic mr-1"></i>AI自動検出
                     </span>
@@ -209,7 +297,7 @@
             <h2 class="text-lg font-medium mb-3 text-gray-700">
                 <i class="fas fa-list mr-2"></i>目次
             </h2>
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-1 text-sm">
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-1 text-sm">
                 <a href="#introduction" class="toc-link">1. はじめに</a>
                 <a href="#requirements" class="toc-link">2. 必要なもの</a>
                 <a href="#setup" class="toc-link">3. 初回起動と認証</a>
@@ -452,28 +540,32 @@
                 メイン画面は左側に設定パネル、右側にプレビューエリアの2つのエリアで構成されています。
             </p>
 
-            <div class="image-container">
+            <div class="image-container large-image">
                 <img src="img/0yQMdcPIea.png" alt="メイン画面全体">
             </div>
 
             <h3 class="text-2xl font-semibold subsection-title">左側：設定パネル</h3>
             <p class="mb-4">設定パネルは上から順に以下の構成になっています。</p>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                <div class="image-container">
-                    <img src="img/ibs9mAKtlc.png" alt="設定パネル上部">
-                </div>
-                <div class="image-container">
-                    <img src="img/fLaBUUKtvx.png" alt="設定パネル下部">
-                </div>
+            <div class="image-container medium-image">
+                <img src="img/UI.jpg" alt="設定パネル">
             </div>
 
             <!-- 1. Profile Management -->
             <h4 class="text-xl font-semibold mb-4 text-gray-800 border-l-4 border-blue-500 pl-4">1. プロファイル管理</h4>
-            <p class="mb-4">画面最上部にあるプロファイル管理セクションでは、設定の保存と管理ができます。</p>
-
-            <div class="image-container">
-                <img src="img/72iDW2pFDl.png" alt="プロファイル管理">
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+                <div>
+                    <p class="mb-4">画面最上部にあるプロファイル管理セクションでは、設定の保存と管理ができます。</p>
+                    <div class="image-container medium-image">
+                        <img src="img/72iDW2pFDl.png" alt="プロファイル管理">
+                    </div>
+                </div>
+                <div>
+                    <div class="image-container medium-image">
+                        <img src="img/nI7yUQfcPD.png" alt="プロファイル選択">
+                    </div>
+                </div>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
@@ -509,10 +601,14 @@
                         <li>• 名前を入力して「OK」をクリックすると、同じ設定内容の新しいプロファイルが作成されます</li>
                     </ul>
                 </div>
-            </div>
-
-            <div class="image-container">
-                <img src="img/nI7yUQfcPD.png" alt="プロファイル選択">
+                <div class="step-card">
+                    <h5 class="font-semibold mb-2">削除ボタン</h5>
+                    <ul class="text-sm space-y-1">
+                        <li>• 現在選択中のプロファイルを削除します</li>
+                        <li>• クリックすると確認ダイアログが表示されます</li>
+                        <li>• 「はい」をクリックすると削除されます（元に戻せませんので注意してください）</li>
+                    </ul>
+                </div>
             </div>
 
             <!-- 2. Image Type Selection -->
@@ -659,7 +755,7 @@
                     <ul class="text-sm space-y-1">
                         <li>• 数値入力欄：ぼかしの強さを数値で指定します（0～100の範囲）</li>
                     </ul>
-                    <div class="image-container mt-2">
+                    <div class="image-container small-image mt-2">
                         <img src="img/zM9FIpdcSa.png" alt="ぼかし強度設定">
                     </div>
                 </div>
@@ -831,7 +927,7 @@
                         <li>• 「前へ」：前の画像を表示</li>
                         <li>• 「次へ」：次の画像を表示</li>
                     </ul>
-                    <div class="image-container mt-2">
+                    <div class="image-container small-image mt-2">
                         <img src="img/oDMl8qbMpE.png" alt="ナビゲーションボタン">
                     </div>
                 </div>
@@ -894,7 +990,7 @@
                     <li>• 「前へ保存」：現在の編集を保存して前の画像へ</li>
                     <li>• 「次へ保存」：現在の編集を保存して次の画像へ</li>
                 </ul>
-                <div class="image-container mt-2">
+                <div class="image-container small-image mt-2">
                     <img src="img/heUF3Gg9ZU.png" alt="ナビゲーション保存">
                 </div>
             </div>
@@ -1124,7 +1220,7 @@
             <h4 class="text-xl font-semibold mb-4 text-gray-800 border-l-4 border-purple-500 pl-4">モード選択（新規モード・修正モード）</h4>
             <p class="mb-4">手動処理モードには2つのモードがあります：</p>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="space-y-6">
                 <div class="step-card">
                     <h5 class="font-semibold mb-2 text-blue-600">新規モード</h5>
                     <ul class="text-sm space-y-1">
@@ -1171,7 +1267,7 @@
                         <li>• 右上の「手動処理」ボタンをクリック</li>
                         <li>• 入力フォルダの画像が自動的に読み込まれます</li>
                     </ul>
-                    <div class="image-container mt-2">
+                    <div class="image-container small-image mt-2">
                         <img src="img/GAJr8EGhiJ.png" alt="手動処理モード起動">
                     </div>
                 </div>
@@ -1303,7 +1399,7 @@
                         <li>• 「前へ」ボタンまたは「A」キー：処理を保存して前へ</li>
                         <li>• 全画像の処理完了後、手動処理モードを終了</li>
                     </ul>
-                    <div class="image-container mt-2">
+                    <div class="image-container small-image mt-2">
                         <img src="img/keivkpOzMS.png" alt="保存と移動">
                     </div>
                 </div>
@@ -1725,4 +1821,261 @@
                     
                     <div class="space-y-3">
                         <div class="bg-orange-50 p-3 rounded">
-                            <h5 class="font-semibold mb-1">1. 処理範囲</h
+                            <h5 class="font-semibold mb-1">処理範囲</h5>
+                            <ul class="text-sm space-y-1">
+                                <li>• 輪郭に合わせてかける：検出範囲ぴったり</li>
+                                <li>• ブロック単位でかける：検出した部位を基準にモザイクブロックを維持する</li>
+                            </ul>
+                            <div class="image-container small-image mt-2">
+                                <img src="img/AZ3PrYZs5h.png" alt="処理範囲">
+                            </div>
+                        </div>
+                        
+                        <div class="bg-blue-50 p-3 rounded">
+                            <h5 class="font-semibold mb-1">範囲調整スライダー</h5>
+                            <ul class="text-sm space-y-1">
+                                <li>• 0～100の範囲で処理範囲の大きさを調整</li>
+                                <li>• 数値が大きいほど広範囲を処理</li>
+                                <li>• 両方の設定を組み合わせて最適な範囲に調整</li>
+                            </ul>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-2">
+                                <div class="image-container small-image">
+                                    <img src="img/FULODRo61c.png" alt="範囲調整例1">
+                                </div>
+                                <div class="image-container small-image">
+                                    <img src="img/prsr7uc6aF.png" alt="範囲調整例2">
+                                </div>
+                                <div class="image-container small-image">
+                                    <img src="img/V1tSiTwyzj.png" alt="範囲調整例3">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 手動処理モード関連 -->
+                <div class="step-card">
+                    <h4 class="font-semibold text-lg mb-3 text-purple-600">手動処理モード関連</h4>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <h5 class="font-semibold text-blue-600 mb-2">Q: スマート検出が機能しない</h5>
+                            <p class="font-semibold mb-2">A: 以下を確認してください：</p>
+                            <div class="bg-gray-50 p-3 rounded space-y-2">
+                                <div>
+                                    <h6 class="font-semibold">処理範囲の確認</h6>
+                                    <p class="text-sm">検出部位が存在しているか確認してください</p>
+                                </div>
+                                <div>
+                                    <h6 class="font-semibold">画像タイプ</h6>
+                                    <p class="text-sm">メイン画面で正しい画像タイプが選択されているか確認</p>
+                                </div>
+                                <div>
+                                    <h6 class="font-semibold">AIモデル</h6>
+                                    <p class="text-sm">AIが対象の部位を検出できないこともあります</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h5 class="font-semibold text-blue-600 mb-2">Q: 手動処理の結果が保存されない</h5>
+                            <p class="font-semibold mb-2">A: 以下の操作を確認：</p>
+                            <div class="bg-gray-50 p-3 rounded space-y-2">
+                                <div>
+                                    <h6 class="font-semibold">保存操作</h6>
+                                    <ul class="text-sm space-y-1">
+                                        <li>• 「次へ」または「F」キーで保存</li>
+                                        <li>• 「前へ」または「A」キーで保存</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h6 class="font-semibold">出力設定</h6>
+                                    <p class="text-sm">メイン画面で出力フォルダが正しく設定されているか確認</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h5 class="font-semibold text-blue-600 mb-2">Q: 削除した画像が復元できない</h5>
+                            <p class="font-semibold mb-2">A: 削除取消機能について：</p>
+                            <div class="bg-gray-50 p-3 rounded space-y-2">
+                                <div>
+                                    <h6 class="font-semibold">セッション内のみ</h6>
+                                    <ul class="text-sm space-y-1">
+                                        <li>• 削除履歴は現在のセッション中のみ保持</li>
+                                        <li>• ツールを終了すると履歴はクリア</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h6 class="font-semibold">削除先フォルダ</h6>
+                                    <ul class="text-sm space-y-1">
+                                        <li>• 削除された画像は削除先フォルダに移動</li>
+                                        <li>• 手動でも復元可能</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h5 class="font-semibold text-blue-600 mb-2">Q: ショートカットキーが効かない</h5>
+                            <p class="font-semibold mb-2">A: 以下を確認：</p>
+                            <div class="bg-gray-50 p-3 rounded space-y-2">
+                                <div>
+                                    <h6 class="font-semibold">フォーカス</h6>
+                                    <ul class="text-sm space-y-1">
+                                        <li>• 手動処理エリアにフォーカスがあるか確認</li>
+                                        <li>• 他のウィンドウがアクティブになっていないか</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h6 class="font-semibold">日本語入力</h6>
+                                    <ul class="text-sm space-y-1">
+                                        <li>• IMEがオフになっているか確認</li>
+                                        <li>• 日本語入力モードではショートカットが効かない場合があります</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- エラー・トラブル関連 -->
+                <div class="step-card">
+                    <h4 class="font-semibold text-lg mb-3 text-red-600">エラー・トラブル関連</h4>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <h5 class="font-semibold text-blue-600 mb-2">Q: 「メモリ不足」エラーが出る</h5>
+                            <p class="font-semibold mb-2">A: 以下の対策を試してください：</p>
+                            <div class="bg-gray-50 p-3 rounded space-y-2">
+                                <div>
+                                    <h6 class="font-semibold">画像サイズ</h6>
+                                    <ul class="text-sm space-y-1">
+                                        <li>• 大きすぎる画像は事前にリサイズ</li>
+                                        <li>• 推奨最大サイズ：4096×4096</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h6 class="font-semibold">同時処理数</h6>
+                                    <ul class="text-sm space-y-1">
+                                        <li>• 一度に処理する画像数を減らす</li>
+                                        <li>• フォルダを分割して処理</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h6 class="font-semibold">他のアプリケーション</h6>
+                                    <p class="text-sm">メモリを大量に使用するアプリを終了</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h5 class="font-semibold text-blue-600 mb-2">Q: 処理が途中で止まる</h5>
+                            <p class="font-semibold mb-2">A: 以下を確認：</p>
+                            <div class="bg-gray-50 p-3 rounded space-y-2">
+                                <div>
+                                    <h6 class="font-semibold">特定の画像</h6>
+                                    <p class="text-sm">問題のある画像を特定し、除外または修正</p>
+                                </div>
+                                <div>
+                                    <h6 class="font-semibold">ディスク容量</h6>
+                                    <p class="text-sm">出力先の空き容量を確認</p>
+                                </div>
+                                <div>
+                                    <h6 class="font-semibold">ログ確認</h6>
+                                    <p class="text-sm">logsフォルダ内のログファイルでエラー詳細を確認</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h5 class="font-semibold text-blue-600 mb-2">Q: ファイルが見つからないエラー</h5>
+                            <p class="font-semibold mb-2">A: パス関連の問題：</p>
+                            <div class="bg-gray-50 p-3 rounded space-y-2">
+                                <div>
+                                    <h6 class="font-semibold">日本語パス</h6>
+                                    <p class="text-sm">フォルダ名に日本語が含まれる場合、英数字に変更</p>
+                                </div>
+                                <div>
+                                    <h6 class="font-semibold">長すぎるパス</h6>
+                                    <p class="text-sm">Windowsのパス長制限（260文字）を超えていないか確認</p>
+                                </div>
+                                <div>
+                                    <h6 class="font-semibold">特殊文字</h6>
+                                    <p class="text-sm">ファイル名に特殊文字が含まれていないか確認</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- その他 -->
+                <div class="step-card">
+                    <h4 class="font-semibold text-lg mb-3 text-gray-600">その他</h4>
+                    
+                    <div class="space-y-3">
+                        <div>
+                            <h5 class="font-semibold text-blue-600 mb-1">Q: Mac版はいつリリースされますか？</h5>
+                            <p class="text-sm">A: 2025年7月中のリリースを予定しています。現在はWindows版のみの提供となります。</p>
+                        </div>
+
+                        <div>
+                            <h5 class="font-semibold text-blue-600 mb-1">Q: 商用利用は可能ですか？</h5>
+                            <p class="text-sm">A: ライセンス条項をご確認ください。適切な目的での使用と、著作権・肖像権への配慮が必要です。</p>
+                        </div>
+
+                        <div>
+                            <h5 class="font-semibold text-blue-600 mb-1">Q: AIモデルを変更できますか？</h5>
+                            <p class="text-sm">A: 現在のバージョンでは、同梱されているAIモデルのみ使用可能です。将来的にカスタムモデル対応を予定しています。</p>
+                        </div>
+
+                        <div>
+                            <h5 class="font-semibold text-blue-600 mb-1">Q: 動画処理に対応していますか？</h5>
+                            <p class="text-sm">A: 現在は静止画のみ対応です。</p>
+                        </div>
+
+                        <div>
+                            <h5 class="font-semibold text-blue-600 mb-1">Q: バッチ処理の上限はありますか？</h5>
+                            <p class="text-sm">A: 特に上限は設定されていませんが、システムのメモリとディスク容量に依存します。大量処理の場合は分割処理を推奨します。</p>
+                        </div>
+
+                        <div>
+                            <h5 class="font-semibold text-blue-600 mb-1">Q: ログファイルはどこにありますか？</h5>
+                            <p class="text-sm">A: ツールのインストールフォルダ内のlogsフォルダに保存されます。トラブル時はこのログを確認してください。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="section">
+            <h2 class="text-3xl font-bold section-title">
+                <i class="fas fa-envelope mr-2"></i>お問い合わせ
+            </h2>
+            
+            <p class="text-lg text-gray-700 mb-6">
+                上記で解決しない場合は、以下の情報を添えてサポートにお問い合わせください：
+            </p>
+
+            <div class="bg-blue-50 border border-blue-200 rounded-lg p-6">
+                <h3 class="text-xl font-semibold mb-4 text-blue-800">お問い合わせ時に必要な情報</h3>
+                <ul class="space-y-2">
+                    <li class="flex items-start">
+                        <i class="fas fa-check text-blue-600 mr-2 mt-1"></i>
+                        <span>エラーメッセージの全文</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-check text-blue-600 mr-2 mt-1"></i>
+                        <span>使用環境（OS、メモリ、GPU等）</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-check text-blue-600 mr-2 mt-1"></i>
+                        <span>再現手順</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-check text-blue-600 mr-2 mt-1"></i>
+                        <span>ログファイル（可能であれば）</span>
+                    </li>
+                </ul>
+            </div>
