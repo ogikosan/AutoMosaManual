@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ログイン - AutoMosaRakku マニュアル</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .login-container {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            padding: 2rem;
+            max-width: 400px;
+            width: 100%;
+            margin: 1rem;
+        }
+        
+        .discord-btn {
+            background: #5865f2;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        .discord-btn:hover {
+            background: #4752c4;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(88, 101, 242, 0.3);
+        }
+        
+        .logo {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .logo h1 {
+            color: #1e293b;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .logo p {
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+        
+        .required-roles {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .required-roles h3 {
+            color: #374151;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .required-roles ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .required-roles li {
+            color: #6b7280;
+            font-size: 0.8rem;
+            margin-bottom: 0.25rem;
+            padding-left: 1rem;
+            position: relative;
+        }
+        
+        .required-roles li:before {
+            content: "•";
+            color: #10b981;
+            position: absolute;
+            left: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="logo">
+            <h1>AutoMosaRakku</h1>
+            <p>完全マニュアル</p>
+        </div>
+        
+        <div class="required-roles">
+            <h3>必要な権限</h3>
+            <ul>
+                <li>運営メンバー</li>
+                <li>モザイク安心パック</li>
+                <li>全部入りプレミアム</li>
+                <li>テスト会員</li>
+            </ul>
+        </div>
+        
+        <button class="discord-btn" onclick="loginWithDiscord()">
+            <i class="fab fa-discord"></i>
+            Discord でログイン
+        </button>
+        
+        <div class="text-center mt-4">
+            <p class="text-sm text-gray-600">
+                上記のいずれかの権限が必要です
+            </p>
+        </div>
+    </div>
+
+    <script>
+        function loginWithDiscord() {
+            window.location.href = '/api/auth/discord';
+        }
+    </script>
+</body>
+</html>

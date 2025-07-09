@@ -74,6 +74,7 @@ jspm_packages/
 # dotenv environment variables file
 .env
 .env.test
+.env.local
 
 # parcel-bundler cache (https://parceljs.org/)
 .cache
@@ -93,4 +94,13 @@ jspm_packages/
 
 # Temporary folders
 tmp/
-temp/ 
+temp/
+
+# Vercel
+.vercel
+
+# 参照用プログラム（アップロード不要）
+SANKO/
+
+# 不要なHTMLファイル
+section5_extracted.html
