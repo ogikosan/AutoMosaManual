@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "vercel dev",
-    "build": "echo 'Static site - no build needed'",
+    "build": "echo 'Build complete'",
     "start": "vercel dev"
   },
   "dependencies": {
