@@ -1,0 +1,1728 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoMosaRakku 完全マニュアル - AI画像処理ツール</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            line-height: 1.7;
+        }
+        
+        .content-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        
+        .section {
+            margin-bottom: 3rem;
+            scroll-margin-top: 2rem;
+        }
+        
+        .section-title {
+            color: #1e293b;
+            border-bottom: 3px solid #3b82f6;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .subsection-title {
+            color: #334155;
+            border-left: 4px solid #10b981;
+            padding-left: 1rem;
+            margin: 2rem 0 1rem 0;
+        }
+        
+        .important-note {
+            background: linear-gradient(135deg, #fef3c7 0%, #fbbf24 100%);
+            border-left: 5px solid #f59e0b;
+            padding: 1rem 1.5rem;
+            border-radius: 0.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .step-card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            transition: all 0.3s ease;
+        }
+        
+        .step-card:hover {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .image-container {
+            text-align: center;
+            margin: 2rem 0;
+            padding: 1rem;
+            background: #f8fafc;
+            border-radius: 0.5rem;
+        }
+        
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        
+        .toc-link {
+            color: #3b82f6;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: block;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            margin: 0.25rem 0;
+        }
+        
+        .toc-link:hover {
+            background-color: #eff6ff;
+            color: #1d4ed8;
+            transform: translateX(0.5rem);
+        }
+        
+        .feature-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        
+        .feature-item {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            display: flex;
+            align-items: flex-start;
+        }
+        
+        .feature-icon {
+            color: #10b981;
+            margin-right: 0.75rem;
+            margin-top: 0.25rem;
+        }
+        
+        .correction-mode-highlight {
+            background: linear-gradient(135deg, #ecfdf5 0%, #a7f3d0 100%);
+            border: 2px solid #10b981;
+            border-radius: 1rem;
+            padding: 2rem;
+            margin: 2rem 0;
+            position: relative;
+        }
+        
+        .correction-mode-highlight::before {
+            content: "重要";
+            position: absolute;
+            top: -0.75rem;
+            left: 1rem;
+            background: #10b981;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+        
+        .shortcut-key {
+            background: #1f2937;
+            color: #f9fafb;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-family: monospace;
+            font-size: 0.875rem;
+            margin: 0 0.25rem;
+        }
+        
+        .workflow-step {
+            background: #ffffff;
+            border: 2px solid #e5e7eb;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            position: relative;
+        }
+        
+        .workflow-step::before {
+            content: attr(data-step);
+            position: absolute;
+            top: -0.75rem;
+            left: 1rem;
+            background: #3b82f6;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+        
+        @media print {
+            .section {
+                break-inside: avoid;
+            }
+            
+            .step-card, .workflow-step, .correction-mode-highlight {
+                break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-gradient-to-r from-blue-600 to-purple-600 text-white py-8 shadow-lg">
+        <div class="content-wrapper">
+            <div class="text-center">
+                <h1 class="text-4xl font-bold mb-2">
+                    <i class="fas fa-robot mr-3"></i>AutoMosaRakku 完全マニュアル
+                </h1>
+                <p class="text-xl text-blue-100">AI画像処理ツール - 使用ガイド</p>
+                <div class="mt-4 flex justify-center items-center space-x-4 text-sm">
+                    <span class="bg-white bg-opacity-20 px-3 py-1 rounded-full">
+                        <i class="fas fa-magic mr-1"></i>AI自動検出
+                    </span>
+                    <span class="bg-white bg-opacity-20 px-3 py-1 rounded-full">
+                        <i class="fas fa-bolt mr-1"></i>高速処理
+                    </span>
+                    <span class="bg-white bg-opacity-20 px-3 py-1 rounded-full">
+                        <i class="fas fa-cogs mr-1"></i>詳細設定
+                    </span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Table of Contents -->
+    <nav class="bg-white shadow-md py-6 sticky top-0 z-10">
+        <div class="content-wrapper">
+            <h2 class="text-2xl font-semibold mb-4 text-gray-800">
+                <i class="fas fa-list mr-2"></i>目次
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
+                <a href="#introduction" class="toc-link">1. はじめに</a>
+                <a href="#requirements" class="toc-link">2. 必要なもの</a>
+                <a href="#setup" class="toc-link">3. 初回起動と認証</a>
+                <a href="#main-screen" class="toc-link">4. メイン画面の詳細な使い方</a>
+                <a href="#basic-usage" class="toc-link">5. 基本的な使い方の流れ</a>
+                <a href="#advanced-features" class="toc-link">6. 高度な機能</a>
+                <a href="#troubleshooting" class="toc-link">7. トラブルシューティング</a>
+                <a href="#glossary" class="toc-link">8. 用語集</a>
+                <a href="#faq" class="toc-link">9. FAQ（よくある質問）</a>
+                <a href="#contact" class="toc-link">10. お問い合わせ</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="content-wrapper py-8">
+        <!-- Section 1: Introduction -->
+        <section id="introduction" class="section">
+            <h2 class="text-3xl font-bold section-title">
+                <i class="fas fa-info-circle mr-2"></i>はじめに
+            </h2>
+            
+            <p class="text-lg text-gray-700 mb-6">
+                オートモザラックは、AI技術を使って画像の特定部分を自動で検出し、モザイクやぼかし処理を行うツールです。高性能なAIモデルによりアニメ画像とリアル画像の両方で精度の高い検出を実現し、GPU環境では1枚あたり約0.2秒（GeForce RTX 4070 Ti使用時）、CPU環境でも約1秒程度の高速処理が可能です。
+            </p>
+
+            <h3 class="text-2xl font-semibold subsection-title">主な機能</h3>
+            <div class="feature-list">
+                <div class="feature-item">
+                    <i class="fas fa-brain feature-icon"></i>
+                    <div>
+                        <strong>AI による自動検出とモザイク処理</strong>
+                        <p class="text-sm text-gray-600 mt-1">高精度なAIモデルで自動検出</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-images feature-icon"></i>
+                    <div>
+                        <strong>アニメ画像とリアル画像の両方に対応</strong>
+                        <p class="text-sm text-gray-600 mt-1">専用モデルで最適な処理</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-palette feature-icon"></i>
+                    <div>
+                        <strong>複数の出力形式</strong>
+                        <p class="text-sm text-gray-600 mt-1">モザイク、黒塗り、白塗り、ぼかし</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-sliders-h feature-icon"></i>
+                    <div>
+                        <strong>詳細な設定カスタマイズ</strong>
+                        <p class="text-sm text-gray-600 mt-1">細かい調整が可能</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-user-cog feature-icon"></i>
+                    <div>
+                        <strong>プロファイル機能による設定管理</strong>
+                        <p class="text-sm text-gray-600 mt-1">用途別設定の保存・切替</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-hand-pointer feature-icon"></i>
+                    <div>
+                        <strong>手動処理モードによる細かい調整</strong>
+                        <p class="text-sm text-gray-600 mt-1">精密な手動編集機能</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-eye feature-icon"></i>
+                    <div>
+                        <strong>プレビュー機能による処理前確認</strong>
+                        <p class="text-sm text-gray-600 mt-1">結果を事前に確認</p>
+                    </div>
+                </div>
+            </div>
+
+            <h3 class="text-2xl font-semibold subsection-title">重要な注意事項</h3>
+            <div class="important-note">
+                <h4 class="font-semibold text-lg mb-2"><i class="fas fa-exclamation-triangle mr-2"></i>使用上の注意</h4>
+                <ul class="space-y-2">
+                    <li><i class="fas fa-check mr-2 text-green-600"></i>このツールは適切な目的での使用を前提としています</li>
+                    <li><i class="fas fa-check mr-2 text-green-600"></i>著作権や肖像権に十分注意してご利用ください</li>
+                    <li><i class="fas fa-check mr-2 text-green-600"></i>起動時にはDiscord認証が必要です</li>
+                </ul>
+            </div>
+
+            <div class="bg-red-50 border-2 border-red-200 rounded-lg p-6 mt-6">
+                <h4 class="text-xl font-bold text-red-800 mb-4">
+                    <i class="fas fa-exclamation-circle mr-2"></i>最初に必ず確認してください（重要！）
+                </h4>
+                <div class="bg-white p-4 rounded-lg border border-red-200">
+                    <h5 class="font-semibold text-red-700 mb-2">ツールの置き場所:</h5>
+                    <div class="space-y-3">
+                        <div class="flex items-start">
+                            <i class="fas fa-times-circle text-red-500 mr-2 mt-1"></i>
+                            <div>
+                                <strong class="text-red-700">避けるべき場所：</strong>
+                                <p class="text-sm">OneDriveのようなクラウド同期フォルダや、特別な権限が必要なフォルダ（例: <code class="bg-gray-200 px-1 rounded">C:\Program Files</code>, <code class="bg-gray-200 px-1 rounded">C:\Windows</code> など）には置かないでください。予期せぬエラーや動作不良の原因となります。</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mr-2 mt-1"></i>
+                            <div>
+                                <strong class="text-green-700">推奨場所：</strong>
+                                <p class="text-sm"><code class="bg-gray-200 px-1 rounded">C:\</code> ドライブ直下や、ご自身で作成した <code class="bg-gray-200 px-1 rounded">D:\Tools</code> のような簡単なパスのフォルダに置いてください。</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <i class="fas fa-info-circle text-blue-500 mr-2 mt-1"></i>
+                            <div>
+                                <strong class="text-blue-700">移動時の注意：</strong>
+                                <p class="text-sm">ツールは、実行ファイルと同じ場所にある設定ファイルや関連フォルダと一緒に使う必要があります。ツールを移動する場合は、これらの関連ファイルやフォルダも必ず一緒に移動してください。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Requirements -->
+        <section id="requirements" class="section">
+            <h2 class="text-3xl font-bold section-title">
+                <i class="fas fa-desktop mr-2"></i>必要なもの
+            </h2>
+
+            <h3 class="text-2xl font-semibold subsection-title">システム要件</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="step-card">
+                    <h4 class="font-semibold text-lg mb-3 text-blue-600">
+                        <i class="fas fa-laptop mr-2"></i>対応OS
+                    </h4>
+                    <p><strong>Windows 10/11専用</strong></p>
+                    <p class="text-sm text-gray-600 mt-1">Mac版は2025年7月中に対応予定</p>
+                </div>
+                
+                <div class="step-card">
+                    <h4 class="font-semibold text-lg mb-3 text-blue-600">
+                        <i class="fas fa-memory mr-2"></i>メモリ
+                    </h4>
+                    <p><strong>8GB以上推奨</strong></p>
+                    <p class="text-sm text-gray-600 mt-1">より多くのメモリがあると快適に動作</p>
+                </div>
+                
+                <div class="step-card">
+                    <h4 class="font-semibold text-lg mb-3 text-blue-600">
+                        <i class="fas fa-hdd mr-2"></i>ディスク容量
+                    </h4>
+                    <p><strong>6GB以上の空き容量</strong></p>
+                    <p class="text-sm text-gray-600 mt-1">AIモデルとプログラム用</p>
+                </div>
+                
+                <div class="step-card">
+                    <h4 class="font-semibold text-lg mb-3 text-blue-600">
+                        <i class="fas fa-microchip mr-2"></i>GPU
+                    </h4>
+                    <p><strong>NVIDIA GeForce推奨</strong></p>
+                    <div class="text-sm text-gray-600 mt-2 space-y-1">
+                        <p>• RTX 4070 Tiで約0.2秒/枚の高速処理</p>
+                        <p>• AMD RadeonやIntel Arcには非対応</p>
+                        <p>• NVIDIA GeForce以外ではCPU処理（約1秒/枚）</p>
+                    </div>
+                </div>
+                
+                <div class="step-card md:col-span-2">
+                    <h4 class="font-semibold text-lg mb-3 text-blue-600">
+                        <i class="fas fa-wifi mr-2"></i>インターネット接続
+                    </h4>
+                    <p><strong>セットアップ時と起動時（認証）に必要</strong></p>
+                    <p class="text-sm text-gray-600 mt-1">安定したネットワーク環境を推奨</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Setup -->
+        <section id="setup" class="section">
+            <h2 class="text-3xl font-bold section-title">
+                <i class="fas fa-rocket mr-2"></i>初回起動と認証
+            </h2>
+
+            <h3 class="text-2xl font-semibold subsection-title">初回セットアップ（初回のみ）</h3>
+            
+            <div class="workflow-step" data-step="1">
+                <h4 class="font-semibold text-lg mb-3">セットアップの実行</h4>
+                <ul class="space-y-2">
+                    <li><i class="fas fa-arrow-right mr-2 text-blue-500"></i><code class="bg-gray-200 px-2 py-1 rounded">Setup.bat</code>をダブルクリックして実行します</li>
+                    <li><i class="fas fa-arrow-right mr-2 text-blue-500"></i>必要なプログラムが自動でダウンロードされます（約5-10分）</li>
+                    <li><i class="fas fa-arrow-right mr-2 text-blue-500"></i>インターネット接続が必要です</li>
+                    <li><i class="fas fa-arrow-right mr-2 text-blue-500"></i>完了まで待機してください</li>
+                </ul>
+            </div>
+
+            <div class="image-container">
+                <img src="https://ogikosan.github.io/AutoMosaRakku_Manual/IEd4HqgBaN.png" alt="セットアップ画面1">
+            </div>
+            
+            <div class="image-container">
+                <img src="https://ogikosan.github.io/AutoMosaRakku_Manual/bEOsMD3i27.png" alt="セットアップ画面2">
+            </div>
+
+            <h3 class="text-2xl font-semibold subsection-title">通常の起動方法</h3>
+            
+            <div class="workflow-step" data-step="1">
+                <h4 class="font-semibold text-lg mb-3">ツールの起動</h4>
+                <ul class="space-y-2">
+                    <li><i class="fas fa-arrow-right mr-2 text-blue-500"></i><code class="bg-gray-200 px-2 py-1 rounded">オートモザラック.bat</code>をダブルクリックして実行します</li>
+                    <li><i class="fas fa-arrow-right mr-2 text-blue-500"></i>ツールの起動まで数秒かかりますので、しばらくお待ちください</li>
+                    <li><i class="fas fa-arrow-right mr-2 text-blue-500"></i>セットアップが完了していない場合は、先に<code class="bg-gray-200 px-2 py-1 rounded">Setup.bat</code>を実行してください</li>
+                </ul>
+            </div>
+
+            <div class="image-container">
+                <img src="https://ogikosan.github.io/AutoMosaRakku_Manual/lqPpqjIca1.png" alt="起動画面">
+            </div>
+
+            <div class="workflow-step" data-step="2">
+                <h4 class="font-semibold text-lg mb-3">Discord認証</h4>
+                <ul class="space-y-2">
+                    <li><i class="fas fa-arrow-right mr-2 text-blue-500"></i>初回起動時、Discord認証画面が表示されます</li>
+                    <li><i class="fas fa-arrow-right mr-2 text-blue-500"></i>指示に従ってDiscordアカウントでログインしてください</li>
+                    <li><i class="fas fa-arrow-right mr-2 text-blue-500"></i>認証が完了すると、メイン画面が表示されます</li>
+                    <li><i class="fas fa-arrow-right mr-2 text-blue-500"></i>認証には有効期限があり、期限が切れた場合は再度認証が必要になります</li>
+                </ul>
+            </div>
+
+            <div class="image-container">
+                <img src="https://ogikosan.github.io/AutoMosaRakku_Manual/LIqM6mb0a4.png" alt="Discord認証画面">
+            </div>
+        </section>
+
+        <!-- Section 4: Main Screen -->
+        <section id="main-screen" class="section">
+            <h2 class="text-3xl font-bold section-title">
+                <i class="fas fa-desktop mr-2"></i>メイン画面の詳細な使い方
+            </h2>
+
+            <p class="text-lg text-gray-700 mb-6">
+                メイン画面は左側に設定パネル、右側にプレビューエリアの2つのエリアで構成されています。
+            </p>
+
+            <div class="image-container">
+                <img src="https://ogikosan.github.io/AutoMosaRakku_Manual/0yQMdcPIea.png" alt="メイン画面全体">
+            </div>
+
+            <h3 class="text-2xl font-semibold subsection-title">左側：設定パネル</h3>
+            <p class="mb-4">設定パネルは上から順に以下の構成になっています。</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                <div class="image-container">
+                    <img src="https://ogikosan.github.io/AutoMosaRakku_Manual/ibs9mAKtlc.png" alt="設定パネル上部">
+                </div>
+                <div class="image-container">
+                    <img src="https://ogikosan.github.io/AutoMosaRakku_Manual/fLaBUUKtvx.png" alt="設定パネル下部">
+                </div>
+            </div>
+
+            <!-- 1. Profile Management -->
+            <h4 class="text-xl font-semibold mb-4 text-gray-800 border-l-4 border-blue-500 pl-4">1. プロファイル管理</h4>
+            <p class="mb-4">画面最上部にあるプロファイル管理セクションでは、設定の保存と管理ができます。</p>
+
+            <div class="image-container">
+                <img src="https://ogikosan.github.io/AutoMosaRakku_Manual/72iDW2pFDl.png" alt="プロファイル管理">
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                <div class="step-card">
+                    <h5 class="font-semibold mb-2">プロファイル選択ドロップダウン</h5>
+                    <ul class="text-sm space-y-1">
+                        <li>• 現在利用可能なプロファイルが一覧表示されます</li>
+                        <li>• 「SNS投稿用」「配信用」「カスタム」の3つが標準で用意されています</li>
+                        <li>• ドロップダウンをクリックして目的に応じたプロファイルを選択してください</li>
+                    </ul>
+                </div>
+                <div class="step-card">
+                    <h5 class="font-semibold mb-2">新規ボタン</h5>
+                    <ul class="text-sm space-y-1">
+                        <li>• クリックすると新しいプロファイル作成のダイアログが表示されます</li>
+                        <li>• プロファイル名を入力して「OK」をクリックすると、現在の設定内容で新しいプロファイルが作成されます</li>
+                        <li>• 英数字とひらがな、カタカナ、漢字が使用できます</li>
+                    </ul>
+                </div>
+                <div class="step-card">
+                    <h5 class="font-semibold mb-2">リネームボタン</h5>
+                    <ul class="text-sm space-y-1">
+                        <li>• 現在選択中のプロファイルの名前を変更できます</li>
+                        <li>• クリックすると名前変更ダイアログが表示されます</li>
+                        <li>• 新しい名前を入力して「OK」をクリックすると名前が変更されます</li>
+                    </ul>
+                </div>
+                <div class="step-card">
+                    <h5 class="font-semibold mb-2">コピーボタン</h5>
+                    <ul class="text-sm space-y-1">
+                        <li>• 現在選択中のプロファイルを複製します</li>
+                        <li>• クリックすると複製プロファイル名の入力ダイアログが表示されます</li>
+                        <li>• 名前を入力して「OK」をクリックすると、同じ設定内容の新しいプロファイルが作成されます</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="image-container">
+                <img src="https://ogikosan.github.io/AutoMosaRakku_Manual/nI7yUQfcPD.png" alt="プロファイル選択">
+            </div>
+
+            <!-- 2. Image Type Selection -->
+            <h4 class="text-xl font-semibold mb-4 text-gray-800 border-l-4 border-blue-500 pl-4">2. 画像タイプ選択</h4>
+            <p class="mb-4">プロファイル管理の下にある画像タイプ選択では、処理対象の画像種類を指定します。</p>
+
+            <div class="image-container">
+                <img src="https://ogikosan.github.io/AutoMosaRakku_Manual/2F3pt0Mxw5.png" alt="画像タイプ選択">
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="step-card">
+                    <h5 class="font-semibold mb-2 text-purple-600">アニメ画像ラジオボタン</h5>
+                    <ul class="text-sm space-y-1">
+                        <li>• アニメ画像を処理する場合に選択します</li>
+                        <li>• このボタンを選択すると、アニメ画像専用のAIモデルが使用されます</li>
+                        <li>• カラー画像のみ対応（線画やモノクロ画像は非対応）</li>
+                    </ul>
+                </div>
+                <div class="step-card">
+                    <h5 class="font-semibold mb-2 text-green-600">リアル画像ラジオボタン</h5>
+                    <ul class="text-sm space-y-1">
+                        <li>• 実写画像を処理する場合に選択します</li>
+                        <li>• このボタンを選択すると、実写画像専用のAIモデルが使用されます</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 3. Input/Output Settings -->
+            <h4 class="text-xl font-semibold mb-4 text-gray-800 border-l-4 border-blue-500 pl-4">3. 入出力設定</h4>
+            <p class="mb-4">画像タイプ選択の下にある入出力設定では、ファイルの入力元と出力先を指定します。</p>
+
+            <div class="image-container">
+                <img src="https://ogikosan.github.io/AutoMosaRakku_Manual/0Bip8bZba7.png" alt="入出力設定">
+            </div>
+
+            <div class="space-y-4">
+                <div class="step-card">
+                    <h5 class="font-semibold mb-2 text-blue-600">入力（常に有効）</h5>
+                    <ul class="text-sm space-y-1">
+                        <li>• パス入力欄：フォルダパスが表示されます</li>
+                        <li>• 「選択」ボタン：フォルダ選択画面が開きます</li>
+                        <li>• サブフォルダ検索：サブフォルダ内の画像も検索対象にするかの設定</li>
+                    </ul>
+                    <div class="image-container mt-2">
+                        <img src="https://ogikosan.github.io/AutoMosaRakku_Manual/sMDnS5yR2N.png" alt="入力設定詳細">
+                    </div>
+                </div>
+
+                <div class="step-card">
+                    <h5 class="font-semibold mb-2 text-green-600">出力1（メイン出力、常に有効）</h5>
+                    <ul class="text-sm space-y-1">
+                        <li>• パス入力欄：処理済み画像の保存先パスが表示されます</li>
+                        <li>• 「選択」ボタン：保存先フォルダを選択できます</li>
+                        <li>• フォルダ構成維持：入力フォルダと同じフォルダ構造で出力するか設定</li>
+                    </ul>
+                    <div class="image-container mt-2">
+                        <img src="https://ogikosan.github.io/AutoMosaRakku_Manual/ST5HxHSGdb.png" alt="出力1設定詳細">
+                    </div>
+                </div>
+
+                <div class="step-card">
+                    <h5 class="font-semibold mb-2 text-purple-600">出力2（サブ出力、オプション）</h5>
+                    <ul class="text-sm space-y-1">
+                        <li>• 「出力2」チェックボックス：異なる設定での2つ目の出力を有効にする場合はチェックを入れます</li>
+                        <li>• パス入力欄：2つ目の処理済み画像の保存先パスが表示されます</li>
+                        <li>• 「選択」ボタン：保存先フォルダを選択できます</li>
+                        <li>• フォルダ構成維持：入力フォルダと同じフォルダ構造で出力するか設定</li>
+                    </ul>
+                    <div class="image-container mt-2">
+                        <img src="https://ogikosan.github.io/AutoMosaRakku_Manual/6YUZj1mon8.png" alt="出力2設定詳細">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Detection Settings -->
+            <h4 class="text-xl font-semibold mb-4 text-gray-800 border-l-4 border-blue-500 pl-4">4. 検出設定</h4>
+            <p class="mb-4">入出力設定の下にある検出設定では、AIが検出する対象と判定の調整を行います。</p>
+
+            <div class="image-container">
+                <img src="https://ogikosan.github.io/AutoMosaRakku_Manual/j48BB7kamN.png" alt="検出設定">
+            </div>
+
+            <p class="mb-4">男性器と女性器の検出項目があり、それぞれにチェックボックスと判定調整スライダーが用意されています。</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="step-card">
+                    <h5 class="font-semibold mb-2 text-blue-600">男性器検出</h5>
+                    <ul class="text-sm space-y-1">
+                        <li>• チェックボックス：男性器の検出を有効にする場合はチェックを入れます</li>
+                        <li>• 判定スライダー：判定の厳しさを-10から+10の範囲で調整できます</li>
+                        <li>• 数値表示ボックス：現在の判定値が数値で表示されます</li>
+                    </ul>
+                    <div class="image-container mt-2">
+                        <img src="https://ogikosan.github.io/AutoMosaRakku_Manual/JRBby5YIph.png" alt="男性器検出設定">
+                    </div>
+                </div>
+
+                <div class="step-card">
+                    <h5 class="font-semibold mb-2 text-pink-600">女性器検出</h5>
+                    <ul class="text-sm space-y-1">
+                        <li>• チェックボックス：女性器の検出を有効にする場合はチェックを入れます</li>
+                        <li>• 判定スライダー：判定の厳しさを-10から+10の範囲で調整できます</li>
+                        <li>• 数値表示ボックス：現在の判定値が数値で表示されます</li>
+                    </ul>
+                    <div class="image-container mt-2">
+                        <img src="https://ogikosan.github.io/AutoMosaRakku_Manual/xPNIGiQfB0.png" alt="女性器検出設定">
+                    </div>
+                </div>
+            </div>
+
+            <div class="important-note mt-4">
+                <h5 class="font-semibold mb-2">判定の調整について：</h5>
+                <ul class="space-y-1">
+                    <li><strong>マイナスの値（-10～-1）：</strong>判定が甘くなり、検出しやすくなりますが誤検出が増える可能性があります</li>
+                    <li><strong>0：</strong>標準的な判定です</li>
+                    <li><strong>プラスの値（+1～+10）：</strong>判定が厳しくなり、誤検出が減りますが検出できなくなるものが出てくる可能性があります</li>
+                </ul>
+                <p class="mt-2"><strong>注意：</strong>チェックボックスを外すと検出対象外となります</p>
+            </div>
+
+            <!-- Processing Settings -->
+            <h4 class="text-xl font-semibold mb-4 text-gray-800 border-l-4 border-blue-500 pl-4">5. 処理設定（出力1）</h4>
+            <p class="mb-4">検出設定の下にある処理設定（出力1）では、第1の出力に対する処理方法を詳細に設定します。</p>
+
+            <div class="image-container">
+                <img src="https://ogikosan.github.io/AutoMosaRakku_Manual/sxJQjWmg4x.png" alt="処理設定出力1">
+            </div>
+
+            <div class="space-y-4">
+                <div class="step-card">
+                    <h5 class="font-semibold mb-2 text-blue-600">モザイク粒度</h5>
+                    <ul class="text-sm space-y-1">
+                        <li>• 「日本基準」ラジオボタン：長辺ピクセル数÷100をしたピクセル数でモザイクをかける（長辺は画像が長方形の場合の長い方）</li>
+                        <li>• 「カスタム」ラジオボタン：独自の粒度値を数値で指定できます</li>
+                    </ul>
+                    <div class="image-container mt-2">
+                        <img src="https://ogikosan.github.io/AutoMosaRakku_Manual/Hehw8vqznA.png" alt="モザイク粒度設定">
+                    </div>
+                </div>
+
+                <div class="step-card">
+                    <h5 class="font-semibold mb-2 text-green-600">ぼかし強度</h5>
+                    <ul class="text-sm space-y-1">
+                        <li>• 数値入力欄：ぼかしの強さを数値で指定します（0～100の範囲）</li>
+                    </ul>
+                    <div class="image-container mt-2">
+                        <img src="https://ogikosan.github.io/AutoMosaRakku_Manual/zM9FIpdcSa.png" alt="ぼかし強度設定">
+                    </div>
+                </div>
+
+                <div class="step-card">
+                    <h5 class="font-semibold mb-2 text-purple-600">処理範囲</h5>
+                    <ul class="text-sm space-y-1">
+                        <li>• 「輪郭に合わせる」：検出範囲ぴったりで処理</li>
+                        <li>• 「ブロック単位でかける」：モザイクのブロックのみで処理</li>
+                    </ul>
+                    <div class="image-container mt-2">
+                        <img src="https://ogikosan.github.io/AutoMosaRakku_Manual/nyorriuCLm.png" alt="処理範囲設定">
+                    </div>
+                </div>
+
+                <div class="step-card">
+                    <h5 class="font-semibold mb-2 text-orange-600">範囲調整</h5>
+                    <ul class="text-sm space-y-1">
+                        <li>• 調整スライダー：処理範囲の大きさを0～100の範囲で調整できます</li>
+                        <li>• 数値表示ボックス：現在の調整値が数値で表示されます</li>
+                    </ul>
+                    <div class="image-container mt-2">
+                        <img src="https://ogikosan.github.io/AutoMosaRakku_Manual/jeFGfWSjtE.png" alt="範囲調整設定">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Output Format 1 -->
+            <h4 class="text-xl font-semibold mb-4 text-gray-800 border-l-4 border-blue-500 pl-4">7. 出力1形式</h4>
+            <p class="mb-4">処理設定（出力2）の下にある出力1形式では、第1の出力で使用する処理方法を選択します。</p>
+
+            <div class="image-container">
+                <img src="https://ogikosan.github.io/AutoMosaRakku_Manual/KSNFCKYDrC.png" alt="出力1形式">
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="step-card">
+                    <h5 class="font-semibold mb-2 text-blue-600">モザイク</h5>
+                    <p class="text-sm mb-2">モザイク処理を行います。対象部分をモザイクで覆い隠します</p>
+                    <div class="image-container">
+                        <img src="https://ogikosan.github.io/AutoMosaRakku_Manual/Whisk_299d9bf836.jpg" alt="モザイク処理例">
+                    </div>
+                </div>
+
+                <div class="step-card">
+                    <h5 class="font-semibold mb-2 text-gray-800">黒塗り</h5>
+                    <p class="text-sm mb-2">対象部分を黒色で塗りつぶします</p>
+                    <div class="image-container">
+                        <img src="https://ogikosan.github.io/AutoMosaRakku_Manual/Whisk_299d9bf836%201.jpg" alt="黒塗り処理例">
+                    </div>
+                </div>
+
+                <div class="step-card">
+                    <h5 class="font-semibold mb-2 text-gray-200">白塗り</h5>
+                    <p class="text-sm mb-2">対象部分を白色で塗りつぶします</p>
+                    <div class="image-container">
+                        <img src="https://ogikosan.github.io/AutoMosaRakku_Manual/Whisk_299d9bf836%202.jpg" alt="白塗り処理例">
+                    </div>
+                </div>
+
+                <div class="step-card">
+                    <h5 class="font-semibold mb-2 text-indigo-600">ぼかし</h5>
+                    <p class="text-sm mb-2">対象部分にぼかし効果を適用します。自然な仕上がりを求める場合に適しています</p>
+                    <div class="image-container">
+                        <img src="https://ogikosan.github.io/AutoMosaRakku_Manual/Whisk_299d9bf836%203.jpg" alt="ぼかし処理例">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Execution Control -->
+            <h4 class="text-xl font-semibold mb-4 text-gray-800 border-l-4 border-blue-500 pl-4">9. 実行制御</h4>
+            <p class="mb-4">出力2形式の下にある実行制御では、設定の保存と処理の自動処理開始・停止を行います。</p>
+
+            <div class="image-container">
+                <img src="https://ogikosan.github.io/AutoMosaRakku_Manual/1E34ybwLiP.png" alt="実行制御">
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="step-card">
+                    <h5 class="font-semibold mb-2 text-green-600">設定保存ボタン</h5>
+                    <ul class="text-sm space-y-1">
+                        <li>• 現在の全ての設定をプロファイルに保存します</li>
+                        <li>• クリックすると設定が即座に保存されます</li>
+                        <li>• 設定を変更した際は、自動処理開始前にこのボタンをクリックして保存することをお勧めします</li>
+                    </ul>
+                </div>
+
+                <div class="step-card">
+                    <h5 class="font-semibold mb-2 text-blue-600">自動処理開始ボタン</h5>
+                    <ul class="text-sm space-y-1">
+                        <li>• 画像処理を開始します</li>
+                        <li>• クリック前に以下の項目が自動チェックされます：</li>
+                        <li class="ml-4">- 入力パスが正しく設定されているか</li>
+                        <li class="ml-4">- 少なくとも1つの出力が有効になっているか</li>
+                        <li class="ml-4">- 少なくとも1つの検出項目が有効になっているか</li>
+                    </ul>
+                </div>
+
+                <div class="step-card">
+                    <h5 class="font-semibold mb-2 text-red-600">停止ボタン</h5>
+                    <ul class="text-sm space-y-1">
+                        <li>• 処理中にクリックすると、現在の処理を停止します</li>
+                        <li>• 停止後、処理済みのファイルはそのまま保持されます</li>
+                    </ul>
+                </div>
+
+                <div class="step-card">
+                    <h5 class="font-semibold mb-2 text-purple-600">プレビューボタン</h5>
+                    <ul class="text-sm space-y-1">
+                        <li>• 選択したフォルダ内の画像をプレビューモードで確認できます</li>
+                        <li>• 実際の処理を行う前に、検出結果を確認できます</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Progress -->
+            <h4 class="text-xl font-semibold mb-4 text-gray-800 border-l-4 border-blue-500 pl-4">10. 進行状況</h4>
+            <p class="mb-4">画面最下部にある進行状況では、現在の処理状況を確認できます。</p>
+
+            <div class="image-container">
+                <img src="https://ogikosan.github.io/AutoMosaRakku_Manual/5J8WeUzcB6.png" alt="進行状況">
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="step-card">
+                    <h5 class="font-semibold mb-2 text-blue-600">プログレスバー</h5>
+                    <p class="text-sm">全体の処理進捗を視覚的に表示します</p>
+                </div>
+                <div class="step-card">
+                    <h5 class="font-semibold mb-2 text-green-600">ステータステキスト</h5>
+                    <p class="text-sm">現在の処理状況が文字で表示されます</p>
+                </div>
+            </div>
+
+            <p class="text-sm text-gray-600 mt-4">処理中は定期的にプログレスバーとステータステキストが更新されます。</p>
+
+            <div class="image-container">
+                <img src="https://ogikosan.github.io/AutoMosaRakku_Manual/WVXAihRXLW.png" alt="進行状況詳細">
+            </div>
+
+            <!-- Right Side: Preview Area -->
+            <h3 class="text-2xl font-semibold subsection-title">右側：プレビューエリア</h3>
+            <p class="mb-4">右側のエリアは、プレビューモードと手動処理モードを切り替えて使用できます。</p>
+
+            <div class="image-container">
+                <img src="https://ogikosan.github.io/AutoMosaRakku_Manual/iqrziukkFg.png" alt="プレビューエリア">
+            </div>
+
+            <!-- Preview Mode -->
+            <h4 class="text-xl font-semibold mb-4 text-gray-800 border-l-4 border-green-500 pl-4">プレビューモード</h4>
+
+            <div class="step-card">
+                <h5 class="font-semibold mb-2 text-green-600">プレビュー表示エリア</h5>
+                <ul class="text-sm space-y-1">
+                    <li>• 現在の検出設定、処理設定、出力形式の設定に基づいて、実際にどのように処理されるかを事前に確認できます</li>
+                    <li>• 処理後の画像がリアルタイムで表示されます</li>
+                    <li>• 設定を変更すると、プレビューも自動的に更新されます</li>
+                </ul>
+            </div>
+
+            <div class="image-container">
+                <img src="https://ogikosan.github.io/AutoMosaRakku_Manual/24bkDsVTaE.png" alt="プレビュー表示">
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="step-card">
+                    <h5 class="font-semibold mb-2 text-blue-600">ナビゲーションボタン</h5>
+                    <ul class="text-sm space-y-1">
+                        <li>• 「前へ」：前の画像を表示</li>
+                        <li>• 「次へ」：次の画像を表示</li>
+                    </ul>
+                    <div class="image-container mt-2">
+                        <img src="https://ogikosan.github.io/AutoMosaRakku_Manual/oDMl8qbMpE.png" alt="ナビゲーションボタン">
+                    </div>
+                </div>
+
+                <div class="step-card">
+                    <h5 class="font-semibold mb-2 text-purple-600">ショートカットキー</h5>
+                    <ul class="text-sm space-y-1">
+                        <li>• <span class="shortcut-key">F</span>：次の画像へ</li>
+                        <li>• <span class="shortcut-key">A</span>：前の画像へ</li>
+                        <li>• <span class="shortcut-key">Esc</span>：プレビューモードを終了</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Manual Processing Mode -->
+            <h4 class="text-xl font-semibold mb-4 text-gray-800 border-l-4 border-orange-500 pl-4">手動処理モード</h4>
+            <p class="mb-4">右上の「手動処理」ボタンをクリックすると、手動処理モードに切り替わります。</p>
+
+            <div class="image-container">
+                <img src="https://ogikosan.github.io/AutoMosaRakku_Manual/JrPET4K4vh.png" alt="手動処理モード">
+            </div>
+
+            <div class="step-card">
+                <h5 class="font-semibold mb-2 text-orange-600">操作方法</h5>
+                <ul class="text-sm space-y-1">
+                    <li>• 範囲選択：選択範囲内をAIで検出で処理</li>
+                    <li>• <span class="shortcut-key">Ctrl</span>＋範囲選択：選択範囲を処理(AI検出なし)</li>
+                    <li>• <span class="shortcut-key">Ctrl</span>＋左クリック：クリックした1ブロックのみを処理(AI検出なし)</li>
+                    <li>• <span class="shortcut-key">Ctrl</span>＋マウスホイール：画像の拡大・縮小</li>
+                    <li>• <span class="shortcut-key">Ctrl</span>＋<span class="shortcut-key">Shift</span>＋ドラッグ：画像の表示位置を移動</li>
+                </ul>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="image-container">
+                    <img src="https://ogikosan.github.io/AutoMosaRakku_Manual/nr8ERs3fzz.png" alt="手動処理操作1">
+                </div>
+                <div class="image-container">
+                    <img src="https://ogikosan.github.io/AutoMosaRakku_Manual/WXOFzS3t9F.png" alt="手動処理操作2">
+                </div>
+            </div>
+
+            <div class="step-card">
+                <h5 class="font-semibold mb-2 text-red-600">操作ボタン</h5>
+                <ul class="text-sm space-y-1">
+                    <li>• 「元に戻す」：直前の操作を取り消し</li>
+                    <li>• 「リセット」：現在の画像を完全に未処理の状態に戻す（モザイク処理前に戻る）</li>
+                    <li>• 「削除」：現在の画像を削除フォルダに移動</li>
+                    <li>• 「削除取消」：直前に削除した画像を元に戻す</li>
+                </ul>
+            </div>
+
+            <div class="image-container">
+                <img src="https://ogikosan.github.io/AutoMosaRakku_Manual/cNyarodk66.png" alt="操作ボタン">
+            </div>
+
+            <div class="step-card">
+                <h5 class="font-semibold mb-2 text-blue-600">ナビゲーション</h5>
+                <ul class="text-sm space-y-1">
+                    <li>• 「前へ保存」：現在の編集を保存して前の画像へ</li>
+                    <li>• 「次へ保存」：現在の編集を保存して次の画像へ</li>
+                </ul>
+                <div class="image-container mt-2">
+                    <img src="https://ogikosan.github.io/AutoMosaRakku_Manual/heUF3Gg9ZU.png" alt="ナビゲーション保存">
+                </div>
+            </div>
+
+            <div class="important-note">
+                <h5 class="font-semibold mb-2">ショートカットキー（手動処理モード）</h5>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-2 text-sm">
+                    <div><span class="shortcut-key">F</span>：次の画像へ</div>
+                    <div><span class="shortcut-key">A</span>：前の画像へ</div>
+                    <div><span class="shortcut-key">Ctrl+Z</span>：元に戻す</div>
+                    <div><span class="shortcut-key">Ctrl+G</span>：リセット</div>
+                    <div><span class="shortcut-key">Delete</span>：画像を削除</div>
+                    <div><span class="shortcut-key">Ctrl+Shift+Z</span>：削除復元</div>
+                    <div><span class="shortcut-key">Ctrl+範囲選択</span>：範囲選択モザイク</div>
+                    <div><span class="shortcut-key">Ctrl+クリック</span>：1ブロックモザイク</div>
+                </div>
+            </div>
+
+            <div class="image-container">
+                <img src="https://ogikosan.github.io/AutoMosaRakku_Manual/z9T0R41Aw2.png" alt="ショートカットキー一覧">
+            </div>
+        </section>
+
+        <!-- Section 5: Basic Usage -->
+        <section id="basic-usage" class="section">
+            <h2 class="text-3xl font-bold section-title">
+                <i class="fas fa-play-circle mr-2"></i>基本的な使い方の流れ
+            </h2>
+
+            <h3 class="text-2xl font-semibold subsection-title">自動処理の場合</h3>
+
+            <div class="space-y-4">
+                <div class="workflow-step" data-step="1">
+                    <h4 class="font-semibold text-lg mb-2">プロファイル選択</h4>
+                    <p class="text-sm">目的に応じたプロファイルを選択（用途別に設定済みのプロファイルを使用）</p>
+                </div>
+
+                <div class="workflow-step" data-step="2">
+                    <h4 class="font-semibold text-lg mb-2">画像タイプ設定</h4>
+                    <p class="text-sm">処理する画像の種類に応じてラジオボタンを選択</p>
+                </div>
+
+                <div class="workflow-step" data-step="3">
+                    <h4 class="font-semibold text-lg mb-2">入力設定</h4>
+                    <p class="text-sm">処理したい画像が入っているフォルダを選択</p>
+                </div>
+
+                <div class="workflow-step" data-step="4">
+                    <h4 class="font-semibold text-lg mb-2">出力設定</h4>
+                    <ul class="text-sm space-y-1">
+                        <li>• 保存先フォルダを選択</li>
+                        <li>• 必要に応じて「出力2」も設定</li>
+                    </ul>
+                </div>
+
+                <div class="workflow-step" data-step="5">
+                    <h4 class="font-semibold text-lg mb-2">検出設定</h4>
+                    <p class="text-sm">検出したい項目にチェックを入れ、判定の厳しさを調整</p>
+                </div>
+
+                <div class="workflow-step" data-step="6">
+                    <h4 class="font-semibold text-lg mb-2">処理設定と出力形式</h4>
+                    <ul class="text-sm space-y-1">
+                        <li>• モザイク粒度やぼかし強度を調整</li>
+                        <li>• 出力形式（モザイク/黒塗り/白塗り/ぼかし）を選択</li>
+                    </ul>
+                </div>
+
+                <div class="workflow-step" data-step="7">
+                    <h4 class="font-semibold text-lg mb-2">実行</h4>
+                    <p class="text-sm">「設定保存」で設定を保存後、「開始」ボタンで処理開始</p>
+                </div>
+            </div>
+
+            <h3 class="text-2xl font-semibold subsection-title">自動処理機能</h3>
+            <p class="mb-6">自動処理は、設定完了後すぐに処理を開始できる便利な機能です。</p>
+
+            <h4 class="text-xl font-semibold mb-4 text-gray-800 border-l-4 border-green-500 pl-4">自動処理の利点</h4>
+            <div class="step-card">
+                <h5 class="font-semibold mb-2 text-green-600">ワンクリック実行</h5>
+                <p class="text-sm mb-4">フォルダに入ってる画像をワンクリックで一括処理</p>
+                <div class="image-container">
+                    <img src="https://ogikosan.github.io/AutoMosaRakku_Manual/qWm8sVZcXf.png" alt="ワンクリック実行">
+                </div>
+            </div>
+
+            <h4 class="text-xl font-semibold mb-4 text-gray-800 border-l-4 border-blue-500 pl-4">処理の流れ</h4>
+
+            <div class="space-y-4">
+                <div class="workflow-step" data-step="1">
+                    <h5 class="font-semibold text-lg mb-2">設定確認</h5>
+                    <ul class="text-sm space-y-1">
+                        <li>• 全ての設定が正しいことを確認</li>
+                        <li>• 特に入力・出力フォルダ、検出項目をチェック</li>
+                    </ul>
+                </div>
+
+                <div class="workflow-step" data-step="2">
+                    <h5 class="font-semibold text-lg mb-2">自動処理開始ボタンクリック</h5>
+                    <ul class="text-sm space-y-1">
+                        <li>• 即座に処理が開始される</li>
+                        <li>• プログレスバーで進捗を確認</li>
+                    </ul>
+                </div>
+
+                <div class="workflow-step" data-step="3">
+                    <h5 class="font-semibold text-lg mb-2">処理完了</h5>
+                    <ul class="text-sm space-y-1">
+                        <li>• 処理完了ダイアログが表示</li>
+                        <li>• 処理された画像数や処理時間を確認</li>
+                        <li>• 「修正モード」ボタンで即座に手動修正へ移行可能</li>
+                    </ul>
+                    <div class="image-container mt-2">
+                        <img src="https://ogikosan.github.io/AutoMosaRakku_Manual/3UD3hbewZX.png" alt="処理完了ダイアログ">
+                    </div>
+                </div>
+
+                <div class="correction-mode-highlight">
+                    <h5 class="font-bold text-xl mb-4">修正モードへの移行</h5>
+                    <div class="space-y-3">
+                        <p><strong>自動処理完了後、そのまま修正モードへ移行できます</strong></p>
+                        
+                        <div class="bg-white p-4 rounded-lg border border-green-200">
+                            <h6 class="font-semibold mb-2 text-green-700">設定の引き継ぎ</h6>
+                            <p class="text-sm">各種設定はそのまま引き継がれるため、すぐに作業開始できます</p>
+                        </div>
+                        
+                        <div class="bg-white p-4 rounded-lg border border-green-200">
+                            <h6 class="font-semibold mb-2 text-green-700">修正モードで可能な作業</h6>
+                            <ul class="text-sm space-y-1">
+                                <li><i class="fas fa-check mr-2 text-green-500"></i>モザイクの品質チェック</li>
+                                <li><i class="fas fa-check mr-2 text-green-500"></i>誤検出箇所のリセットと再処理</li>
+                                <li><i class="fas fa-check mr-2 text-green-500"></i>検出漏れ箇所の追加処理</li>
+                                <li><i class="fas fa-check mr-2 text-green-500"></i>不要な画像の削除</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bg-gradient-to-r from-green-100 to-blue-100 p-4 rounded-lg border">
+                            <p class="font-semibold text-center">これにより、自動処理から品質確認・修正まで一気通貫で作業完了</p>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+                        <div class="image-container">
+                            <img src="https://ogikosan.github.io/AutoMosaRakku_Manual/TkdXSeYZij.png" alt="修正モード例1">
+                        </div>
+                        <div class="image-container">
+                            <img src="https://ogikosan.github.io/AutoMosaRakku_Manual/AgjHWMdsQc.png" alt="修正モード例2">
+                        </div>
+                        <div class="image-container">
+                            <img src="https://ogikosan.github.io/AutoMosaRakku_Manual/uOFL0cYMQ4.png" alt="修正モード例3">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h4 class="text-xl font-semibold mb-4 text-gray-800 border-l-4 border-yellow-500 pl-4">注意事項</h4>
+            <div class="important-note">
+                <ul class="space-y-2">
+                    <li><i class="fas fa-exclamation-triangle mr-2"></i>自動開始前に設定を十分確認してください</li>
+                    <li><i class="fas fa-exclamation-triangle mr-2"></i>大量の画像を処理する場合は、まずプレビューで事前確認することを推奨</li>
+                    <li><i class="fas fa-exclamation-triangle mr-2"></i>処理中はプログレスバーで進捗を確認できます</li>
+                    <li><i class="fas fa-exclamation-triangle mr-2"></i>処理を中断したい場合は「停止」ボタンを使用してください</li>
+                </ul>
+            </div>
+
+            <h3 class="text-2xl font-semibold subsection-title">プレビューモードの使い方</h3>
+
+            <div class="space-y-4">
+                <div class="workflow-step" data-step="1">
+                    <h5 class="font-semibold text-lg mb-2">プレビュー開始</h5>
+                    <p class="text-sm">設定完了後、「プレビュー」ボタンをクリック</p>
+                </div>
+
+                <div class="workflow-step" data-step="2">
+                    <h5 class="font-semibold text-lg mb-2">結果確認</h5>
+                    <ul class="text-sm space-y-1">
+                        <li>• 右側のプレビューエリアで検出結果を確認</li>
+                        <li>• ナビゲーションボタンまたはショートカットキーで画像を切り替え</li>
+                    </ul>
+                </div>
+
+                <div class="workflow-step" data-step="3">
+                    <h5 class="font-semibold text-lg mb-2">設定調整</h5>
+                    <ul class="text-sm space-y-1">
+                        <li>• 検出結果に問題がある場合は、左側の設定を調整</li>
+                        <li>• 再度プレビューで確認</li>
+                    </ul>
+                </div>
+
+                <div class="workflow-step" data-step="4">
+                    <h5 class="font-semibold text-lg mb-2">本処理実行</h5>
+                    <p class="text-sm">設定が適切であることを確認後、「開始」ボタンで本処理を実行</p>
+                </div>
+            </div>
+
+            <h3 class="text-2xl font-semibold subsection-title">手動処理モードの使い方</h3>
+            <p class="mb-6">手動処理モードは、自動処理では対応しきれない細かな調整や、誤検出の修正を行うための重要な機能です。特に以下のような場面で威力を発揮します：</p>
+
+            <div class="feature-list">
+                <div class="feature-item">
+                    <i class="fas fa-edit feature-icon"></i>
+                    <div>
+                        <strong>自動処理で誤ってモザイクがかかった箇所の修正</strong>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-plus-circle feature-icon"></i>
+                    <div>
+                        <strong>検出漏れした部分への追加処理</strong>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-adjust feature-icon"></i>
+                    <div>
+                        <strong>既存のモザイクパターンを崩さない精密な修正</strong>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-trash feature-icon"></i>
+                    <div>
+                        <strong>問題のある画像の即座の削除</strong>
+                    </div>
+                </div>
+            </div>
+
+            <h4 class="text-xl font-semibold mb-4 text-gray-800 border-l-4 border-purple-500 pl-4">モード選択（新規モード・修正モード）</h4>
+            <p class="mb-4">手動処理モードには2つのモードがあります：</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="step-card">
+                    <h5 class="font-semibold mb-2 text-blue-600">新規モード</h5>
+                    <ul class="text-sm space-y-1">
+                        <li>• 未処理の画像に対して新たに処理を行うモード</li>
+                        <li>• 入力フォルダの画像を読み込み、ゼロから処理を開始</li>
+                        <li>• 自動処理を使わずに最初から手動で処理したい場合に使用</li>
+                    </ul>
+                    <div class="image-container mt-2">
+                        <img src="https://ogikosan.github.io/AutoMosaRakku_Manual/KGObVrWCrv.png" alt="新規モード">
+                    </div>
+                </div>
+
+                <div class="step-card">
+                    <h5 class="font-semibold mb-2 text-green-600">修正モード</h5>
+                    <ul class="text-sm space-y-1">
+                        <li>• 自動処理済みの画像を修正するモード</li>
+                        <li>• 出力フォルダの処理済み画像を読み込み、既存の処理結果を維持しながら修正</li>
+                        <li>• 自動処理後の微調整や誤検出の修正に最適</li>
+                        <li>• <strong>重要</strong>: 修正モードでは元画像（入力フォルダ）も参照するため、入力フォルダの設定が必要</li>
+                    </ul>
+                    <div class="image-container mt-2">
+                        <img src="https://ogikosan.github.io/AutoMosaRakku_Manual/JhnazKjgUh.png" alt="修正モード">
+                    </div>
+                </div>
+            </div>
+
+            <div class="step-card">
+                <h5 class="font-semibold mb-2 text-purple-600">自動処理からの連携</h5>
+                <ul class="text-sm space-y-1">
+                    <li>• 自動処理完了後、処理完了ダイアログから「修正モード」ボタンで直接移行可能</li>
+                    <li>• フォルダ設定はそのまま引き継がれるため、すぐに修正作業を開始できます</li>
+                </ul>
+                <div class="image-container mt-2">
+                    <img src="https://ogikosan.github.io/AutoMosaRakku_Manual/ybRZj7MwXX.png" alt="自動処理からの連携">
+                </div>
+            </div>
+
+            <h4 class="text-xl font-semibold mb-4 text-gray-800 border-l-4 border-orange-500 pl-4">基本操作フロー</h4>
+
+            <div class="space-y-4">
+                <div class="workflow-step" data-step="1">
+                    <h5 class="font-semibold text-lg mb-2">手動処理モード起動</h5>
+                    <ul class="text-sm space-y-1">
+                        <li>• 右上の「手動処理」ボタンをクリック</li>
+                        <li>• 入力フォルダの画像が自動的に読み込まれます</li>
+                    </ul>
+                    <div class="image-container mt-2">
+                        <img src="https://ogikosan.github.io/AutoMosaRakku_Manual/GAJr8EGhiJ.png" alt="手動処理モード起動">
+                    </div>
+                </div>
+
+                <div class="workflow-step" data-step="2">
+                    <h5 class="font-semibold text-lg mb-2">操作ガイドの確認</h5>
+                    <ul class="text-sm space-y-1">
+                        <li>• 初めて使用する場合は「操作ガイド」ボタンをクリック</li>
+                        <li>• マウス操作やショートカットキーの一覧が表示されます</li>
+                        <li>• いつでも参照可能で、操作に迷った時に便利</li>
+                    </ul>
+                </div>
+
+                <div class="workflow-step" data-step="3">
+                    <h5 class="font-semibold text-lg mb-2">画像の確認と処理</h5>
+                    <ul class="text-sm space-y-1">
+                        <li>• 画像が表示されたら、処理が必要な箇所を確認</li>
+                        <li>• ズーム機能（マウスホイール）で細部まで確認可能</li>
+                        <li>• ズーム時はCtrl+ドラッグで画像を移動できます</li>
+                    </ul>
+                    <div class="image-container mt-2">
+                        <img src="https://ogikosan.github.io/AutoMosaRakku_Manual/jYIYu32hjH.png" alt="画像確認">
+                    </div>
+                </div>
+
+                <div class="workflow-step" data-step="4">
+                    <h5 class="font-semibold text-lg mb-2">処理方法の選択</h5>
+                    
+                    <div class="space-y-4 mt-4">
+                        <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                            <h6 class="font-semibold mb-2 text-blue-700">スマート検出による範囲処理</h6>
+                            <p class="text-sm mb-2">通常のドラッグ：AIが自動的に対象を検出して処理</p>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                                <div class="image-container">
+                                    <img src="https://ogikosan.github.io/AutoMosaRakku_Manual/J0c73W7zTG.png" alt="スマート検出1">
+                                </div>
+                                <div class="image-container">
+                                    <img src="https://ogikosan.github.io/AutoMosaRakku_Manual/UJOVGouQiO.png" alt="スマート検出2">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-green-50 p-4 rounded-lg border border-green-200">
+                            <h6 class="font-semibold mb-2 text-green-700">精密な範囲指定処理（Ctrl+範囲指定）</h6>
+                            <p class="text-sm mb-2">AI検出を使わずに、選択した範囲を正確にそのまま処理する機能です。</p>
+                            
+                            <div class="mt-3">
+                                <strong class="text-sm">使用場面：</strong>
+                                <ul class="text-xs mt-1 space-y-1">
+                                    <li>• 文字や記号など、通常の検出対象ではないもの</li>
+                                    <li>• 特定の形状や範囲を正確に処理したい場合</li>
+                                    <li>• 複数の対象が重なっていて個別検出が困難な場合</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="mt-3">
+                                <strong class="text-sm">技術的な利点：</strong>
+                                <ul class="text-xs mt-1 space-y-1">
+                                    <li>• パターンの維持：既存のモザイクブロックと同じグリッドに沿って処理</li>
+                                    <li>• 重なり防止：新しい処理が既存のモザイクと重ならない</li>
+                                    <li>• 自然な仕上がり：モザイクが二重にかかったような不自然さを回避</li>
+                                    <li>• 統一感のある処理：既存のモザイクと同じ粒度で処理</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-2 mt-3">
+                                <div class="image-container">
+                                    <img src="https://ogikosan.github.io/AutoMosaRakku_Manual/L6OLyXmFcz.png" alt="精密範囲指定1">
+                                </div>
+                                <div class="image-container">
+                                    <img src="https://ogikosan.github.io/AutoMosaRakku_Manual/yVxMilnK8i.png" alt="精密範囲指定2">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-purple-50 p-4 rounded-lg border border-purple-200">
+                            <h6 class="font-semibold mb-2 text-purple-700">1ブロック単位の処理（Ctrl+クリック）</h6>
+                            <p class="text-sm mb-2">モザイクの最小単位（1ブロック）だけを処理する、最も精密な修正機能です。</p>
+                            
+                            <div class="mt-3">
+                                <strong class="text-sm">使用場面：</strong>
+                                <ul class="text-xs mt-1 space-y-1">
+                                    <li>• 既存のモザイクに1～2ブロックだけ追加したい</li>
+                                    <li>• モザイクの端を微調整したい</li>
+                                    <li>• 大きな範囲処理では細かすぎる部分の修正</li>
+                                    <li>• モザイクパターンの統一感を保ちたい場合</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="image-container mt-3">
+                                <img src="https://ogikosan.github.io/AutoMosaRakku_Manual/emBkMOVVjT.png" alt="1ブロック処理">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="workflow-step" data-step="5">
+                    <h5 class="font-semibold text-lg mb-2">リセット機能の活用</h5>
+                    <ul class="text-sm space-y-1">
+                        <li>• 「リセット」ボタンまたはCtrl＋G：画像を完全に未処理の状態に戻す</li>
+                        <li>• 重要な使用場面：自動処理で誤ってモザイクがかかった場合、処理結果に満足できない場合、最初からやり直したい場合</li>
+                    </ul>
+                    
+                    <div class="bg-gray-50 p-3 rounded mt-3">
+                        <strong class="text-sm">リセット後の再処理フロー：</strong>
+                        <ol class="text-xs mt-1 space-y-1">
+                            <li>1. リセットで全てのモザイクを除去</li>
+                            <li>2. 必要な箇所だけをスマート検出で再選択</li>
+                            <li>3. より精密な処理結果を実現</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="workflow-step" data-step="6">
+                    <h5 class="font-semibold text-lg mb-2">削除機能</h5>
+                    <ul class="text-sm space-y-1">
+                        <li>• 「削除」ボタンまたは「Delete」キー：現在の画像を削除し、削除先フォルダに移動</li>
+                        <li>• 削除復元ボタン／Ctrl+Shift+Z：最後の削除画像を復元可能（セッション内のみ）</li>
+                    </ul>
+                    <div class="image-container mt-2">
+                        <img src="https://ogikosan.github.io/AutoMosaRakku_Manual/fExk7lNzlP.png" alt="削除機能">
+                    </div>
+                </div>
+
+                <div class="workflow-step" data-step="7">
+                    <h5 class="font-semibold text-lg mb-2">保存と次の画像への移動</h5>
+                    <ul class="text-sm space-y-1">
+                        <li>• 「次へ」ボタンまたは「F」キー：現在の処理を保存して次へ</li>
+                        <li>• 「前へ」ボタンまたは「A」キー：処理を保存して前へ</li>
+                        <li>• 全画像の処理完了後、手動処理モードを終了</li>
+                    </ul>
+                    <div class="image-container mt-2">
+                        <img src="https://ogikosan.github.io/AutoMosaRakku_Manual/keivkpOzMS.png" alt="保存と移動">
+                    </div>
+                </div>
+            </div>
+
+            <h4 class="text-xl font-semibold mb-4 text-gray-800 border-l-4 border-yellow-500 pl-4">効率的な作業のためのヒント</h4>
+
+            <div class="space-y-4">
+                <div class="step-card">
+                    <h5 class="font-semibold mb-2 text-blue-600">ショートカットキーの活用</h5>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                        <div class="space-y-1">
+                            <div><span class="shortcut-key">F</span>：保存して次の画像へ移動</div>
+                            <div><span class="shortcut-key">A</span>：保存して前の画像へ移動</div>
+                            <div><span class="shortcut-key">Ctrl+Z</span>：直前の操作を元に戻す（Undo）</div>
+                            <div><span class="shortcut-key">Ctrl+G</span>：現在の画像をリセット</div>
+                            <div><span class="shortcut-key">Delete</span>：現在の画像を削除</div>
+                        </div>
+                        <div class="space-y-1">
+                            <div><span class="shortcut-key">Ctrl+Shift+Z</span>：削除した画像を復元</div>
+                            <div><span class="shortcut-key">Ctrl+ドラッグ</span>：通常のモザイク</div>
+                            <div><span class="shortcut-key">Ctrl+クリック</span>：1ブロックモザイク</div>
+                            <div><span class="shortcut-key">Ctrl+スクロール</span>：画像の拡大・縮小</div>
+                            <div><span class="shortcut-key">Ctrl+Shift+ドラッグ</span>：画像の移動</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-card">
+                    <h5 class="font-semibold mb-2 text-green-600">作業を効率化するコツ</h5>
+                    <ul class="text-sm space-y-1">
+                        <li>• プレビューモードで事前に把握してから自動処理へ</li>
+                        <li>• 修正モードで効率よく画像を修正</li>
+                        <li>• 削除機能を活用して、問題のある画像は早めに除外</li>
+                    </ul>
+                </div>
+
+                <div class="step-card">
+                    <h5 class="font-semibold mb-2 text-orange-600">よくある操作ミスと対処法</h5>
+                    <ul class="text-sm space-y-1">
+                        <li>• 誤って広範囲を選択した場合 → Ctrl+Zですぐに元に戻す</li>
+                        <li>• スマート検出で意図しない部分が選択された場合 → Ctrl+ドラッグで手動選択</li>
+                        <li>• 処理を間違えた画像 → Ctrl+Gでリセットして最初から</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 6: Advanced Features -->
+        <section id="advanced-features" class="section">
+            <h2 class="text-3xl font-bold section-title">
+                <i class="fas fa-cogs mr-2"></i>高度な機能
+            </h2>
+
+            <h3 class="text-2xl font-semibold subsection-title">スマート検出機能</h3>
+            <div class="step-card">
+                <p class="mb-4">手動処理モードで範囲選択するで、AIによる自動検出ができます。</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <h5 class="font-semibold mb-2 text-blue-600">使用方法</h5>
+                        <p class="text-sm">範囲選択：選択範囲内の対象を自動検出</p>
+                    </div>
+                    <div>
+                        <h5 class="font-semibold mb-2 text-green-600">メリット</h5>
+                        <ul class="text-sm space-y-1">
+                            <li>• 手動での細かい範囲選択が不要</li>
+                            <li>• 複雑な形状も正確に検出可能</li>
+                            <li>• 作業時間の大幅な短縮</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <h3 class="text-2xl font-semibold subsection-title">複数出力機能</h3>
+            <div class="step-card">
+                <p class="mb-4">出力1と出力2で異なる設定を適用することで、1回の処理で2種類の結果を得られます。</p>
+                
+                <div class="bg-blue-50 p-4 rounded-lg">
+                    <h5 class="font-semibold mb-2 text-blue-700">活用例</h5>
+                    <ul class="text-sm space-y-1">
+                        <li>• 出力1：モザイク処理（SNS投稿用）</li>
+                        <li>• 出力2：黒塗り処理（配信用）</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3 class="text-2xl font-semibold subsection-title">プロファイル活用</h3>
+            <div class="step-card">
+                <p class="mb-4">よく使う設定をプロファイルとして保存しておくことで、用途に応じて素早く切り替えられます。</p>
+                
+                <div class="bg-green-50 p-4 rounded-lg">
+                    <h5 class="font-semibold mb-2 text-green-700">プロファイル作成のコツ</h5>
+                    <ul class="text-sm space-y-1">
+                        <li>• 用途別に作成（SNS用、配信用、アーカイブ用など）</li>
+                        <li>• 画像タイプ別に作成（アニメ用、リアル用）</li>
+                        <li>• 処理強度別に作成（軽め、標準、強め）</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 7: Troubleshooting -->
+        <section id="troubleshooting" class="section">
+            <h2 class="text-3xl font-bold section-title">
+                <i class="fas fa-tools mr-2"></i>トラブルシューティング
+            </h2>
+
+            <h3 class="text-2xl font-semibold subsection-title">よくある問題と解決方法</h3>
+
+            <div class="space-y-6">
+                <div class="step-card">
+                    <h4 class="font-semibold text-lg mb-3 text-red-600">Q: ツールが起動しない</h4>
+                    <ul class="text-sm space-y-2">
+                        <li><i class="fas fa-check mr-2 text-green-500"></i>初回は必ず<code class="bg-gray-200 px-2 py-1 rounded">Setup.bat</code>を実行してセットアップを完了してください</li>
+                        <li><i class="fas fa-check mr-2 text-green-500"></i><code class="bg-gray-200 px-2 py-1 rounded">オートモザラック.bat</code>をダブルクリックして起動してください</li>
+                        <li><i class="fas fa-check mr-2 text-green-500"></i>セキュリティソフトが反応する場合は、本ツールを除外設定に追加してください</li>
+                        <li><i class="fas fa-check mr-2 text-green-500"></i>ツールはデスクトップやOneDrive同期フォルダ、システム領域（Program Filesなど）に置かないでください</li>
+                    </ul>
+                </div>
+
+                <div class="step-card">
+                    <h4 class="font-semibold text-lg mb-3 text-red-600">Q: 処理が開始されない</h4>
+                    <ul class="text-sm space-y-2">
+                        <li><i class="fas fa-check mr-2 text-green-500"></i>入力パスが正しく設定されているか確認してください</li>
+                        <li><i class="fas fa-check mr-2 text-green-500"></i>少なくとも1つの出力が有効になっているか確認してください</li>
+                        <li><i class="fas fa-check mr-2 text-green-500"></i>少なくとも1つの検出項目が有効になっているか確認してください</li>
+                    </ul>
+                </div>
+
+                <div class="step-card">
+                    <h4 class="font-semibold text-lg mb-3 text-red-600">Q: 検出精度が低い</h4>
+                    <ul class="text-sm space-y-2">
+                        <li><i class="fas fa-check mr-2 text-green-500"></i>画像タイプの選択が正しいか確認してください（アニメ/リアル）</li>
+                        <li><i class="fas fa-check mr-2 text-green-500"></i>判定調整をマイナスの値に調整してください</li>
+                        <li><i class="fas fa-check mr-2 text-green-500"></i>対象がはっきり写っている画像か確認してください</li>
+                    </ul>
+                </div>
+
+                <div class="step-card">
+                    <h4 class="font-semibold text-lg mb-3 text-red-600">Q: 誤検出が多い</h4>
+                    <ul class="text-sm space-y-2">
+                        <li><i class="fas fa-check mr-2 text-green-500"></i>判定調整をプラスの値に調整してください</li>
+                        <li><i class="fas fa-check mr-2 text-green-500"></i>画像の品質を確認してください</li>
+                    </ul>
+                </div>
+
+                <div class="step-card">
+                    <h4 class="font-semibold text-lg mb-3 text-red-600">Q: 処理が重い・遅い</h4>
+                    <ul class="text-sm space-y-2">
+                        <li><i class="fas fa-check mr-2 text-green-500"></i>画像サイズが大きすぎる場合は事前にリサイズを検討してください</li>
+                        <li><i class="fas fa-check mr-2 text-green-500"></i>同時に処理する画像数を減らしてください</li>
+                        <li><i class="fas fa-check mr-2 text-green-500"></i>GPU（NVIDIA GeForce）を使用していない場合は、処理速度が遅くなります</li>
+                    </ul>
+                </div>
+
+                <div class="step-card">
+                    <h4 class="font-semibold text-lg mb-3 text-red-600">Q: 手動処理モードで範囲選択ができない</h4>
+                    <ul class="text-sm space-y-2">
+                        <li><i class="fas fa-check mr-2 text-green-500"></i>画像が正しく読み込まれているか確認してください</li>
+                        <li><i class="fas fa-check mr-2 text-green-500"></i>一度「リセット」ボタンを押してから再度試してください</li>
+                    </ul>
+                </div>
+
+                <div class="step-card">
+                    <h4 class="font-semibold text-lg mb-3 text-red-600">Q: Discord認証でエラーが発生する</h4>
+                    <ul class="text-sm space-y-2">
+                        <li><i class="fas fa-check mr-2 text-green-500"></i>インターネット接続を確認してください</li>
+                        <li><i class="fas fa-check mr-2 text-green-500"></i>ブラウザでDiscordにログインできるか確認してください</li>
+                        <li><i class="fas fa-check mr-2 text-green-500"></i>一時的な問題の可能性があるため、時間をおいて再度試してください</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 8: Glossary -->
+        <section id="glossary" class="section">
+            <h2 class="text-3xl font-bold section-title">
+                <i class="fas fa-book mr-2"></i>用語集
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="step-card">
+                    <h4 class="font-semibold mb-2 text-blue-600">プロファイル</h4>
+                    <p class="text-sm">設定内容をまとめて保存・管理する機能</p>
+                </div>
+
+                <div class="step-card">
+                    <h4 class="font-semibold mb-2 text-blue-600">判定調整</h4>
+                    <p class="text-sm">AIが対象を見つける厳しさの設定（高いほど誤検出が減るが、検出できないものも増える）</p>
+                </div>
+
+                <div class="step-card">
+                    <h4 class="font-semibold mb-2 text-blue-600">モザイク粒度</h4>
+                    <p class="text-sm">モザイクの細かさを決める値</p>
+                </div>
+
+                <div class="step-card">
+                    <h4 class="font-semibold mb-2 text-blue-600">範囲調整</h4>
+                    <p class="text-sm">処理する範囲の大きさを調整する機能</p>
+                </div>
+
+                <div class="step-card">
+                    <h4 class="font-semibold mb-2 text-blue-600">出力形式</h4>
+                    <p class="text-sm">最終的にどのような処理を施すかの選択（モザイク/黒塗り/白塗り/ぼかし）</p>
+                </div>
+
+                <div class="step-card">
+                    <h4 class="font-semibold mb-2 text-blue-600">スマート検出</h4>
+                    <p class="text-sm">AIを使って自動的に対象を認識する機能</p>
+                </div>
+
+                <div class="step-card">
+                    <h4 class="font-semibold mb-2 text-blue-600">サブフォルダ検索</h4>
+                    <p class="text-sm">指定したフォルダ内のサブフォルダも含めて画像を検索する機能</p>
+                </div>
+
+                <div class="step-card">
+                    <h4 class="font-semibold mb-2 text-blue-600">フォルダ構成維持</h4>
+                    <p class="text-sm">入力フォルダと同じフォルダ階層で出力する機能</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 9: FAQ -->
+        <section id="faq" class="section">
+            <h2 class="text-3xl font-bold section-title">
+                <i class="fas fa-question-circle mr-2"></i>FAQ（よくある質問）
+            </h2>
+
+            <h3 class="text-2xl font-semibold subsection-title">インストール・起動関連</h3>
+
+            <div class="space-y-6">
+                <div class="step-card">
+                    <h4 class="font-semibold text-lg mb-3 text-blue-600">Q: Setup.batを実行してもエラーが出る</h4>
+                    <p class="font-semibold mb-2">A: 以下の点を確認してください：</p>
+                    <div class="space-y-3">
+                        <div class="bg-blue-50 p-3 rounded">
+                            <h5 class="font-semibold mb-1">1. 管理者権限で実行</h5>
+                            <p class="text-sm">Setup.batを右クリック→「管理者として実行」</p>
+                        </div>
+                        <div class="bg-blue-50 p-3 rounded">
+                            <h5 class="font-semibold mb-1">2. インターネット接続</h5>
+                            <p class="text-sm">セットアップにはインターネット接続が必須です。ファイアウォールやプロキシの設定を確認</p>
+                        </div>
+                        <div class="bg-blue-50 p-3 rounded">
+                            <h5 class="font-semibold mb-1">3. ウイルス対策ソフト</h5>
+                            <p class="text-sm">一時的に無効化するか、除外設定に追加</p>
+                        </div>
+                        <div class="bg-blue-50 p-3 rounded">
+                            <h5 class="font-semibold mb-1">4. フォルダの場所</h5>
+                            <p class="text-sm">OneDriveやDropboxなどのクラウド同期フォルダは避ける。<code class="bg-gray-200 px-1 rounded">C:\Tools\</code> など、シンプルなパスに配置</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-card">
+                    <h4 class="font-semibold text-lg mb-3 text-blue-600">Q: Discord認証でエラーが発生する</h4>
+                    <p class="font-semibold mb-2">A: 以下を試してください：</p>
+                    <div class="space-y-3">
+                        <div class="bg-green-50 p-3 rounded">
+                            <h5 class="font-semibold mb-1">1. ブラウザの確認</h5>
+                            <p class="text-sm">デフォルトブラウザでDiscordにログインできるか確認。キャッシュやCookieをクリア</p>
+                        </div>
+                        <div class="bg-green-50 p-3 rounded">
+                            <h5 class="font-semibold mb-1">2. 時刻設定</h5>
+                            <p class="text-sm">PCの時刻が正確か確認（認証にはタイムスタンプが使用されます）</p>
+                        </div>
+                        <div class="bg-green-50 p-3 rounded">
+                            <h5 class="font-semibold mb-1">3. 再認証</h5>
+                            <p class="text-sm">config.jsonファイルを削除して再度認証</p>
+                            <div class="image-container mt-2">
+                                <img src="https://ogikosan.github.io/AutoMosaRakku_Manual/guRtWG7rdq.png" alt="config.json削除">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-card">
+                    <h4 class="font-semibold text-lg mb-3 text-blue-600">Q: ツールが重い・起動が遅い</h4>
+                    <p class="font-semibold mb-2">A: 以下の対策があります：</p>
+                    <div class="space-y-3">
+                        <div class="bg-yellow-50 p-3 rounded">
+                            <h5 class="font-semibold mb-1">1. 初回起動時</h5>
+                            <p class="text-sm">AIモデルの読み込みに時間がかかります（数秒～10秒ほど）。2回目以降は高速化されます</p>
+                        </div>
+                        <div class="bg-yellow-50 p-3 rounded">
+                            <h5 class="font-semibold mb-1">2. メモリ不足</h5>
+                            <p class="text-sm">8GB以上のRAMを推奨。他のアプリケーションを終了</p>
+                        </div>
+                        <div class="bg-yellow-50 p-3 rounded">
+                            <h5 class="font-semibold mb-1">3. GPU設定</h5>
+                            <p class="text-sm">NVIDIA GPUがある場合は自動的に使用されます。GPUドライバを最新版に更新</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h3 class="text-2xl font-semibold subsection-title">設定・操作関連</h3>
+
+            <div class="space-y-6">
+                <div class="step-card">
+                    <h4 class="font-semibold text-lg mb-3 text-purple-600">Q: プロファイルが保存されない</h4>
+                    <p class="font-semibold mb-2">A: 以下を確認してください：</p>
+                    <div class="space-y-3">
+                        <div class="bg-purple-50 p-3 rounded">
+                            <h5 class="font-semibold mb-1">1. 保存ボタン</h5>
+                            <p class="text-sm">設定変更後は必ず「設定保存」ボタンをクリック</p>
+                        </div>
+                        <div class="bg-purple-50 p-3 rounded">
+                            <h5 class="font-semibold mb-1">2. 書き込み権限</h5>
+                            <p class="text-sm">configフォルダへの書き込み権限があるか確認</p>
+                        </div>
+                        <div class="bg-purple-50 p-3 rounded">
+                            <h5 class="font-semibold mb-1">3. プロファイル名</h5>
+                            <p class="text-sm">特殊文字（/, \, :, *, ?, ", &lt;, &gt;, |）は使用不可</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-card">
+                    <h4 class="font-semibold text-lg mb-3 text-purple-600">Q: 出力2が有効にならない</h4>
+                    <p class="font-semibold mb-2">A: 出力2を使用するには：</p>
+                    <ol class="text-sm space-y-1">
+                        <li>1. 「出力2」チェックボックスにチェックを入れる</li>
+                        <li>2. 出力先フォルダを選択</li>
+                        <li>3. 出力2形式で処理タイプを選択（モザイク等）</li>
+                    </ol>
+                </div>
+
+                <div class="step-card">
+                    <h4 class="font-semibold text-lg mb-3 text-purple-600">Q: サブフォルダの画像が処理されない</h4>
+                    <p class="font-semibold mb-2">A:</p>
+                    <p class="text-sm">「サブフォルダ検索」にチェックが入っているか確認してください。チェックが外れていると、指定フォルダ直下の画像のみが対象となります。</p>
+                </div>
+            </div>
+
+            <h3 class="text-2xl font-semibold subsection-title">処理・検出関連</h3>
+
+            <div class="space-y-6">
+                <div class="step-card">
+                    <h4 class="font-semibold text-lg mb-3 text-green-600">Q: 検出精度が低い・検出されない</h4>
+                    <p class="font-semibold mb-2">A: 以下を調整してください：</p>
+                    
+                    <div class="space-y-3">
+                        <div class="bg-green-50 p-3 rounded">
+                            <h5 class="font-semibold mb-1">1. 画像タイプの確認</h5>
+                            <ul class="text-sm space-y-1">
+                                <li>• アニメ画像→「アニメ画像」を選択</li>
+                                <li>• 実写画像→「リアル画像」を選択</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bg-green-50 p-3 rounded">
+                            <h5 class="font-semibold mb-1">2. 判定調整</h5>
+                            <p class="text-sm">スライダーをマイナス方向（-10～-1）に調整。検出しやすくなりますが、誤検出も増える可能性があります</p>
+                            <div class="image-container mt-2">
+                                <img src="https://ogikosan.github.io/AutoMosaRakku_Manual/zlXdkSh6Fa.png" alt="判定調整">
+                            </div>
+                        </div>
+                        
+                        <div class="bg-green-50 p-3 rounded">
+                            <h5 class="font-semibold mb-1">3. 画像品質</h5>
+                            <ul class="text-sm space-y-1">
+                                <li>• 解像度が低すぎる、ぼやけている画像は検出困難</li>
+                                <li>• 対象が小さすぎる場合も検出されにくい</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-card">
+                    <h4 class="font-semibold text-lg mb-3 text-green-600">Q: 誤検出が多い</h4>
+                    <p class="font-semibold mb-2">A: 以下の対策があります：</p>
+                    
+                    <div class="space-y-3">
+                        <div class="bg-red-50 p-3 rounded">
+                            <h5 class="font-semibold mb-1">1. 判定調整</h5>
+                            <p class="text-sm">スライダーをプラス方向（+1～+10）に調整。誤検出は減りますが、検出漏れが増える可能性があります</p>
+                            <div class="image-container mt-2">
+                                <img src="https://ogikosan.github.io/AutoMosaRakku_Manual/yzf2vvfaEw.png" alt="誤検出対策">
+                            </div>
+                        </div>
+                        
+                        <div class="bg-red-50 p-3 rounded">
+                            <h5 class="font-semibold mb-1">2. 手動処理モード</h5>
+                            <p class="text-sm">誤検出が多い画像は手動処理モードで修正</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-card">
+                    <h4 class="font-semibold text-lg mb-3 text-green-600">Q: モザイクが粗い・細かすぎる</h4>
+                    <p class="font-semibold mb-2">A: モザイク粒度を調整してください：</p>
+                    
+                    <div class="space-y-3">
+                        <div class="bg-blue-50 p-3 rounded">
+                            <h5 class="font-semibold mb-1">1. 日本基準</h5>
+                            <ul class="text-sm space-y-1">
+                                <li>• 画像の長辺÷100のサイズで自動計算</li>
+                                <li>• 一般的な基準です</li>
+                                <li>• FANZA同人はこの基準で問題ありません</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bg-blue-50 p-3 rounded">
+                            <h5 class="font-semibold mb-1">2. カスタム</h5>
+                            <ul class="text-sm space-y-1">
+                                <li>• 任意の数値を指定可能</li>
+                                <li>• 数値が大きいほど粗いモザイク</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-card">
+                    <h4 class="font-semibold text-lg mb-3 text-green-600">Q: 処理範囲が狭い・広すぎる</h4>
+                    <p class="font-semibold mb-2">A: 処理範囲と範囲調整を組み合わせて調整：</p>
+                    
+                    <div class="space-y-3">
+                        <div class="bg-orange-50 p-3 rounded">
+                            <h5 class="font-semibold mb-1">1. 処理範囲</h
